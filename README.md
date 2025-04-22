@@ -7,7 +7,7 @@ This plugin requires the httprpc plugin.
 Place all the plugin files in a directory called mobile in the rutorrent/plugins directory.
 To clone directly from this git repository, run this command in the rutorrent/plugins directory:
 ```
-git clone https://github.com/xombiemp/rutorrentMobile.git mobile
+git clone https://github.com/pogman-code/rutorrentMobile.git mobile
 
 ```
 
@@ -20,6 +20,7 @@ Optional plugins that add additional functionality:
 * seedingtime: Adds the fields Added and Finished to the torrent details page.
 * ratio: Allows you to see and set the ratio group for a torrent.
 * throttle: Allows you to see and set the channel for a torrent.
+* ratiocolor: Adds color indicator to ratio
 
 ### Configuration
 There are three configurable boolean options and one multi-value option that you may set at the top of init.js.
@@ -45,4 +46,4 @@ If you are experiencing problems with this plugin, for example it's not scrollin
 * Make sure the httprpc plugin is installed. The mobile plugin requires it.
 * Make sure the plugin directory is named 'mobile' or else it won't load the plugin specific css file called mobile.css
 * Make sure you don't have the ipad plugin installed. The ipad plugin will make it so you can't scroll in the mobile plugin.
-* If you are still having issues, submit an issue on github https://github.com/xombiemp/rutorrentMobile/issues and be sure to include as much detail as possible including: mobile device and OS and browser, server OS and webserver.
+* If you are still having issues, submit an issue on github https://github.com/pogman-code/rutorrentMobile/issues and be sure to include as much detail as possible including: mobile device and OS and browser, server OS and webserver.
