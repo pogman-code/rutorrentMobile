@@ -1398,6 +1398,7 @@ plugin.init = function() {
       plugin.loadCSS('css/bootstrap.min');
       plugin.loadMainCSS();
       $('head').append('<meta name="apple-mobile-web-app-capable" content="yes" />');
+      $('head').append('<link rel="manifest" href="/plugins/mobile/manifest.json" crossorigin="use-credentials"/>');
       if (plugin.bootstrapJS)
       injectScript(plugin.path+'js/bootstrap.min.js');
 
