@@ -1183,7 +1183,17 @@ plugin.update = function(singleUpdate) {
           listHtmlString +=
           '<tr id="' + v.hash + '" class="torrentBlock status' + statusClass + ' state' + stateClass + ' error' + errorClass + ' label' + plugin.labelIds[v.label] + (v.msg ? ' danger' : '') + '" onclick="mobile.showDetails(this.id);"><td>' +
           '<h6>' + v.name + '</h6>' +
-          '<span>' + status[1] + ((v.ul) ? ' ↑' + theConverter.speed(v.ul) : '') + ((v.dl) ? ' ↓' + theConverter.speed(v.dl) : '') + ' | ' + ((status[1] == 'Downloading') ? (theUILang.ETA + ' ' + ((v.eta ==- 1) ? "&#8734;" : theConverter.time(v.eta))) : (theUILang.Ratio + ' ' + ((v.ratio ==- 1) ? "&#8734;" : theConverter.round(v.ratio/1000,3)))) + ((v.msg) ? ' | <i class="text">' + v.msg + '</i>' : '') + '</span>' +
+          '<span>' +
+            status[1] +
+            ((v.ul) ? ' ↑' + theConverter.speed(v.ul) : '') +
+            ((v.dl) ? ' ↓' + theConverter.speed(v.dl) : '') +
+            ' | ' +
+            (
+              (status[1] == 'Downloading') ?
+                (theUILang.ETA + ' ' + ((v.eta ==- 1) ? "&#8734;" : theConverter.time(v.eta))) :
+                (theUILang.Ratio + ' ' + ((v.ratio ==- 1) ? "&#8734;" : '<span class="stable-List-col-6"><div style="display: inline;">' + theConverter.round(v.ratio/1000,3) + '</div></span>'))
+            ) +
+            ((v.msg) ? ' | <i class="text">' + v.msg + '</i>' : '') + '</span>' +
           '<div class="progress' + ((v.done == 1000) ? '' : ' active') + '">' +
           '<div class="progress-bar progress-bar-success" style="width: ' + percent + '%;">' + percent + '% ' + theUILang.of + ' ' + theConverter.bytes(v.size,2) + '</div>' +
           '</div>' +
@@ -1196,7 +1206,18 @@ plugin.update = function(singleUpdate) {
           listHtml.find($('#' + v.hash)).addClass('error' + errorClass);
           listHtml.find($('#' + v.hash)).addClass('label' + plugin.labelIds[v.label]);
           if (v.msg) listHtml.find($('#' + v.hash)).addClass('danger')
-          listHtml.find($('#' + v.hash + ' span')).html(status[1] + ((v.ul) ? ' ↑' + theConverter.speed(v.ul) : '') + ((v.dl) ? ' ↓' + theConverter.speed(v.dl) : '') + ' | ' + ((status[1] == 'Downloading') ? (theUILang.ETA + ' ' + ((v.eta ==- 1) ? "&#8734;" : theConverter.time(v.eta))) : (theUILang.Ratio + ' ' + ((v.ratio ==- 1) ? "&#8734;" : theConverter.round(v.ratio/1000,3)))) + ((v.msg) ? ' | <i class="text">' + v.msg + '</i>' : ''));
+          listHtml.find($('#' + v.hash + ' span')).html(
+            status[1] +
+            ((v.ul) ? ' ↑' + theConverter.speed(v.ul) : '') +
+            ((v.dl) ? ' ↓' + theConverter.speed(v.dl) : '') +
+            ' | ' +
+            (
+              (status[1] == 'Downloading') ?
+                (theUILang.ETA + ' ' + ((v.eta ==- 1) ? "&#8734;" : theConverter.time(v.eta))) :
+              (theUILang.Ratio + ' ' + ((v.ratio ==- 1) ? "&#8734;" : '<span class="stable-List-col-6"><div style="display: inline;">' + theConverter.round(v.ratio/1000,3) + '</div></span>'))
+            ) +
+            ((v.msg) ? ' | <i class="text">' + v.msg + '</i>' : '')
+          );
           listHtml.find($('#' + v.hash + ' .progress')).removeClass('active');
           if (v.done != 1000) {
             listHtml.find($('#' + v.hash + ' .progress')).addClass('active');
@@ -1249,6 +1270,7 @@ plugin.update = function(singleUpdate) {
           listHtml.append(listHtmlString);
         }
       }
+      theWebUI.setRatioColors();
 
       $.each(trackersMap, function(id, ns) {
         $.each(ns, function(i, n) {
@@ -1328,7 +1350,7 @@ plugin.disableOthers = function() {
     theWebUI.loadTorrents = function() { }
 
     $.each(thePlugins.list, function(i, v) {
-      if (v.name != 'rpc' && v.name != 'httprpc' && v.name != '_getdir' && v.name != 'throttle' && v.name != 'ratio' && v.name != 'erasedata' && v.name != 'seedingtime' && v.name != 'mobile') {
+      if (v.name != 'rpc' && v.name != 'httprpc' && v.name != '_getdir' && v.name != 'throttle' && v.name != 'ratio' && v.name != 'erasedata' && v.name != 'seedingtime' && v.name != 'mobile' && v.name != 'ratiocolor') {
         v.disable();
       }
     });
