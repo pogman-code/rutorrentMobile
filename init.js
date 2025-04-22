@@ -1270,7 +1270,9 @@ plugin.update = function(singleUpdate) {
           listHtml.append(listHtmlString);
         }
       }
-      theWebUI.setRatioColors();
+      if (thePlugins.isInstalled('ratiocolor')) {
+        theWebUI.setRatioColors();
+      }
 
       $.each(trackersMap, function(id, ns) {
         $.each(ns, function(i, n) {
@@ -1350,7 +1352,7 @@ plugin.disableOthers = function() {
     theWebUI.loadTorrents = function() { }
 
     $.each(thePlugins.list, function(i, v) {
-      if (v.name != 'rpc' && v.name != 'httprpc' && v.name != '_getdir' && v.name != 'throttle' && v.name != 'ratio' && v.name != 'erasedata' && v.name != 'seedingtime' && v.name != 'mobile' && v.name != 'ratiocolor') {
+      if (!['rpc', 'httprpc', '_getdir', 'throttle', 'ratio', 'erasedata', 'seedingtime', 'mobile', 'ratiocolor'].includes(v.name)) {
         v.disable();
       }
     });
