@@ -1175,7 +1175,7 @@ plugin.update = function(singleUpdate) {
         var stateClass = (v.ul || v.dl) ? 'Active' : 'Inactive';
         var errorClass = (v.state & dStatus.error) ? 'Yes' : 'No';
         var percent = v.done / 10;
-        var rx = /"(.*)\\"/g;
+        var rx = /\[(.*)\]/g;
         var digestMsg = v.msg ? rx.exec(v.msg)[1] : '';
 
         tul += iv(v.ul);
