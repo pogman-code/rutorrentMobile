@@ -1,5 +1,5 @@
 <div id="mainContainer">
-  
+
   <nav id="mainNavbar" class="navbar navbar-inverse">
     <div class="container">
       <ul class="nav navbar-inverse">
@@ -25,18 +25,22 @@
         <li class='torrentControl'>
           <a id="torrentDelete" href="javascript://void();" onclick="mobile.delete();"><i class="glyphicon glyphicon-trash icon-white"></i></a>
         </li>
-        <li>
-          <div>
-            <i class="glyphicon glyphicon-upload icon-white"></i><span id="upspeed"></span>
-          </div>
-          <div>
-            <i class="glyphicon glyphicon-download icon-white"></i><span id="downspeed"></span>
-          </div>
+        <li class=speed>
+          <span>
+            <i class="glyphicon glyphicon-upload icon-white"></i>
+            <span id="upspeed"></span>
+          </span>
+        </li>
+        <li class="speed">
+          <span>
+            <i class="glyphicon glyphicon-download icon-white"></i>
+            <span id="downspeed"></span>
+          </span>
         </li>
       </ul>
     </div>
   </nav>
-  
+
   <div class="mainContainer" id="torrentsList">
     <ul class="nav nav-tabs">
       <li id="torrentsStatus" class="dropdown">
@@ -71,20 +75,20 @@
         <ul class="dropdown-menu pull-right"></ul>
       </li>
       <li id="sort">
-        <a id="sortIcon" href="javascript://void();" onclick="mobile.showSort();"><i class="glyphicon glyphicon-sort icon-black"></i></a>
+        <a id="sortIcon" href="javascript://void();" onclick="mobile.showSort();"><i class="glyphicon glyphicon-sort icon-white"></i></a>
       </li>
       <li id="refresh">
-        <a id="refreshIcon" href="javascript://void();" onclick="mobile.refresh();"><i class="glyphicon glyphicon-refresh icon-black"></i></a>
+        <a id="refreshIcon" href="javascript://void();" onclick="mobile.refresh();"><i class="glyphicon glyphicon-refresh icon-white"></i></a>
       </li>
     </ul>
     <div id="list"><table class="table table table-striped"><tbody></tbody></table></div>
   </div>
-  
+
   <div class="mainContainer" id="torrentDetails" style="display:none;">
     <div id="torrentDetailsHeader">
-      <h5 id="torrentName"></h5>
+      <h6 id="torrentName"></h6>
       <div class="progress" id="torrentProgress">
-        <div class="progress-bar progress-bar-striped"></div>
+        <div class="progress-bar progress-bar-success"></div>
       </div>
     </div>
     <ul class="nav nav-tabs" id="detailsNav">
@@ -104,7 +108,7 @@
     <table class="table table-striped detailsPage" id="detailsDetailsPage">
       <tbody>
         <tr id="status"><td></td><td></td></tr>
-        <tr id="priority"><td></td><td><select id="torrentPriority"></select></td></tr>
+        <tr id="priority"><td></td><td><select id="torrentPriority" class="form-control"></select></td></tr>
         <tr id="label"><td></td><td></td></tr>
         <tr id="done"><td></td><td></td></tr>
         <tr id="downloaded"><td></td><td></td></tr>
@@ -149,31 +153,31 @@
       </div>
     </div>
   </div>
-  
+
   <div class="mainContainer container" id="torrentSort" style="display:none;">
     <div class="form-group">
-      <label class="select" for="sortOption"><h5></h5></label>
+      <label class="select" for="sortOption"><h6></h6></label>
       <select id="sortOption" class="form-control"></select>
       <div class="radio">
-        <label id="sortAsc" class="radio-inline"><input type="radio" name="inlineRadioOptions" id="sort_asc" value=""><i class="glyphicon glyphicon-sort-by-attributes icon-black"></i></label>
-        <label id="sortDesc" class="radio-inline"><input type="radio" name="inlineRadioOptions" id="sort_desc" value="-"><i class="glyphicon glyphicon-sort-by-attributes-alt icon-black"></i></label>
+        <label id="sortAsc" class="radio-inline"><input type="radio" name="inlineRadioOptions" id="sort_asc" value=""><i class="glyphicon glyphicon-sort-by-attributes icon-white"></i></label>
+        <label id="sortDesc" class="radio-inline"><input type="radio" name="inlineRadioOptions" id="sort_desc" value="-"><i class="glyphicon glyphicon-sort-by-attributes-alt icon-white"></i></label>
       </div>
     </div>
     <button id="sortOk" onclick="mobile.setSort();" class="btn btn-primary"></button>
     <button id="sortCancel" onclick="history.go(-1);" class="btn btn-default"></button>
   </div>
-  
+
   <div class="mainContainer container" id="globalSettings" style="display:none;">
     <div class="form-group">
-      <label class="select" for="dlLimit"><h5></h5></label>
+      <label class="select" for="dlLimit"><h6></h6></label>
       <select id="dlLimit" class="form-control"></select>
     </div>
     <div class="form-group">
-      <label class="select" for="ulLimit"><h5></h5></label>
+      <label class="select" for="ulLimit"><h6></h6></label>
       <select id="ulLimit" class="form-control"></select>
     </div>
   </div>
-  
+
   <div class="mainContainer container" id="addTorrent" style="display:none;">
     <form action="php/addtorrent.php?" id="addTorrentFile" method="post" enctype="multipart/form-data" target="uploadFrame">
       <div class="input-append" id="dirEditBlock">
@@ -207,15 +211,15 @@
       <button type="submit" id="addUrl" class="btn btn-primary"></button>
     </form>
   </div>
-  
+
   <div class="mainContainer" id="getDirList" style="display:none;"></div>
-  
+
   <div class="mainContainer container text-center" id="confimTorrentDelete" style="display:none;">
-    <h5></h5>
+    <h6></h6>
     <button id="deleteOk" onclick="mobile.deleteConfimed();" class="btn btn-primary"></button>
     <button id="deleteCancel" onclick="history.go(-1);" class="btn btn-default"></button>
   </div>
-  
+
   <div id="alert_placeholder"></div>
-  
+
 </div>

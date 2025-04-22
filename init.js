@@ -415,7 +415,7 @@ plugin.showSort = function() {
   $('#sortOption option').prop('selected', false);
   $('#sort_asc').prop('checked', false);
   $('#sort_desc').prop('checked', false);
-  
+
   var sort = '';
   if(plugin.sort[0] === "-") {
     sort = plugin.sort.substr(1);
@@ -424,7 +424,7 @@ plugin.showSort = function() {
     sort = plugin.sort;
     $('#sort_asc').prop('checked', true);
   }
-  
+
   sortHtml = '<option value="name">' + theUILang.Name + '</option>' +
               '<option value="size">' + theUILang.Size + '</option>' +
               '<option value="uploaded">' + theUILang.Uploaded + '</option>' +
@@ -434,14 +434,14 @@ plugin.showSort = function() {
               '<option value="ul">' + theUILang.Ul_speed + '</option>' +
               '<option value="dl">' + theUILang.Down_speed + '</option>' +
               '<option value="ratio">' + theUILang.Ratio + '</option>';
-  
+
   if (this.seedingtimeLoaded) {
     sortHtml += '<option value="addtime">' + theUILang.addTime + '</option>' +
                 '<option value="seedingtime">' + theUILang.seedingTime + '</option>'
   }
   $('#sortOption').html(sortHtml);
   $('#sortOption option[value=' + sort + ']').prop('selected', true);
-  
+
   plugin.showPage('torrentSort');
 };
 
@@ -478,7 +478,7 @@ plugin.fillLabel = function(label) {
     return;
   }
 
-  $('#torrentDetails #label td:last').text(label + ' ').append('<button class="btn btn-default btn-sm" type="button" onclick="mobile.editLabel();"><i class="glyphicon glyphicon-edit .icon-black"></i></button>');
+  $('#torrentDetails #label td:last').text(label + ' ').append('<button class="btn btn-default btn-sm" type="button" onclick="mobile.editLabel();"><i class="glyphicon glyphicon-edit .icon-white"></i></button>');
 };
 
 plugin.fillDetails = function(d) {
@@ -492,7 +492,7 @@ plugin.fillDetails = function(d) {
   $('#torrentProgress .progress-bar').css('width', percent + '%');
   $('#torrentProgress .progress-bar').text(percent + '% ' + theUILang.of + ' ' + theConverter.bytes(d.size,2));
 
-  $('#torrentDetails #status td:last').text(theWebUI.getStatusIcon(d)[1] + ' ').append('<button class="btn btn-default btn-sm" type="button" onclick="mobile.recheck();"><i class="glyphicon glyphicon-refresh .icon-black"></i></button>');
+  $('#torrentDetails #status td:last').text(theWebUI.getStatusIcon(d)[1] + ' ').append('<button class="btn btn-default btn-sm" type="button" onclick="mobile.recheck();"><i class="glyphicon glyphicon-refresh .icon-white"></i></button>');
   $('#torrentPriority option').prop('selected', false);
   $('#torrentPriority option[value=' + d.priority + ']').prop('selected', true);
   if (this.ratioGroupsLoaded) {
@@ -552,7 +552,7 @@ plugin.editLabel = function() {
   $('#torrentDetails #label td:last')
   .html('<div class="input-append">' +
   '<input class="form-control" id="labelEdit" type="text" value="' + plugin.torrent.label +'"/>' +
-  '<button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-ok icon-black"></i></button></div>');
+  '<button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-ok icon-white"></i></button></div>');
   $('#labelEdit').focus();
   $('#labelEdit').blur(function() {
     var newLabel = $('#labelEdit').val();
@@ -678,7 +678,7 @@ plugin.loadPeers = function() {
       if (hash == mobile.torrent.hash) {
         var tableHeight = $(window).height() - $('#mainNavbar').outerHeight(true) - ($('#torrentDetails .nav').outerHeight(true) + $('#torrentDetailsHeader').outerHeight(true) + ($('#torrentDetailsHeader #torrentProgress').outerHeight(true) - $('#torrentDetailsHeader #torrentProgress').outerHeight()));
         $('div.tableFixHead').css("max-height", tableHeight + "px");
-        
+
         var peersHtml = '';
 
         for (var i = 0; i < pid.length; i++) {
@@ -760,26 +760,26 @@ plugin.drawFiles = function(p) {
     }
     var upperDir = realPath.substr(0, i);
     filesHtml += '<a href="javascript://void();" onclick="mobile.drawFiles(\'' + upperDir + '\');">' +
-    '<i class="glyphicon glyphicon-folder-open icon-black"></i> ..</a><hr>';
+    '<i class="glyphicon glyphicon-folder-open icon-white"></i> ..</a><hr>';
   }
 
   for (var name in dir.container) {
     filesHtml += '<div>' +
     '<div class="hiddenPath">' + realPath + '/' + name + '</div>' +
-    '<button onclick="mobile.toogleDisplay($(this).parent().find(\'.prioritySelect\'));" class="btn btn-default btn-sm pull-right"><i class="glyphicon glyphicon-th-list icon-black"></i></button>'
+    '<button onclick="mobile.toogleDisplay($(this).parent().find(\'.prioritySelect\'));" class="btn btn-default btn-sm pull-right"><i class="glyphicon glyphicon-th-list icon-white"></i></button>'
     if (dir.container[name].directory) {
       filesHtml += '<a href="javascript://void();" onclick="mobile.drawFiles(\'' + realPath + '/' + name + '\');">' +
-      '<i class="glyphicon glyphicon-folder-open icon-black"></i>&nbsp;' + name + '</a>';
+      '<i class="glyphicon glyphicon-folder-open icon-white"></i>&nbsp;' + name + '</a>';
     } else {
       var idName = 'file' + dir.container[name].id;
       filesHtml += '<a href="javascript://void();" onclick="mobile.toogleDisplay($(\'#' + idName + '\'));">' +
-      '<i class="glyphicon glyphicon-file icon-black"></i>&nbsp;' + name + '</a><div style="display:none;" id="' + idName + '">' +
+      '<i class="glyphicon glyphicon-file icon-white"></i>&nbsp;' + name + '</a><div style="display:none;" id="' + idName + '">' +
       '<table class="table table-striped"><tbody>' +
       '<tr><td>' + theUILang.Done + '</td><td>' + theConverter.bytes(dir.container[name].done) + '</td></tr>' +
       '<tr><td>' + theUILang.Size + '</td><td>' + theConverter.bytes(dir.container[name].size) + '</td></tr>' +
       '</tbody></table></div>';
     }
-    filesHtml += '<select class="prioritySelect" style="display:none;">' +
+    filesHtml += '<select class="form-control prioritySelect" style="display:none;">' +
     '<option disabled ' + ((dir.container[name].priority == -1) ? 'selected' : '') + '></option>' +
     '<option value="2" ' + ((dir.container[name].priority == 2) ? 'selected' : '') + '>' + theUILang.High_priority + '</option>' +
     '<option value="1" ' + ((dir.container[name].priority == 1) ? 'selected' : '') + '>' + theUILang.Normal_priority + '</option>' +
@@ -907,7 +907,7 @@ plugin.delete = function() {
       $('#deleteWithData input').prop('checked', this.eraseWithDataDefault);
     }
     if (theWebUI.settings["webui.confirm_when_deleting"]) {
-      $('#confimTorrentDelete h5').html('<span id="confirmText">' + theUILang.Rem_torrents_prompt + '</span><hr />' + this.torrent.name);
+      $('#confimTorrentDelete h6').html('<span id="confirmText">' + theUILang.Rem_torrents_prompt + '</span><hr />' + this.torrent.name);
       this.showPage('confimTorrentDelete');
     } else {
       this.deleteConfimed();
@@ -932,7 +932,7 @@ plugin.chooseGetDir = function(path) {
 
 plugin.drawGetDir = function(path, first) {
   $.ajax({
-    url: 'plugins/_getdir/getdirs.php',
+    url: 'plugins/_getdir/listdir.php',
     data: {
       'btn': '',
       'edit': '',
@@ -947,16 +947,13 @@ plugin.drawGetDir = function(path, first) {
 
       var html = '<table class="table table-striped"><tbody>'
 
-      while ((match = re.exec(data)) != null) {
-        if (match[2] == '.') {
-          html = '<h5>' + decodeURIComponent(match[1]) + '</h5>' +
-          '<button class="btn btn-primary" onclick="mobile.chooseGetDir(\'' + decodeURIComponent(match[1]) + '\');">' + theUILang.ok + '</button>' +
-          '<button class="btn btn-default" onclick="history.go(-1);">' + theUILang.Cancel + '</button>' +
-          html;
-        } else {
-          html += '<tr onclick="mobile.drawGetDir(\'' + decodeURIComponent(match[1]) + '\');">' +
-          '<td><i class="glyphicon glyphicon-folder-open icon-black"></i> ' + match[2] + '</td></tr>';
-        }
+        html = '<h6>' + decodeURIComponent(data.path) + '</h6>' +
+        '<button class="btn btn-primary" onclick="mobile.chooseGetDir(\'' + decodeURIComponent(data.path) + '\');">' + theUILang.ok + '</button>' +
+        '<button class="btn btn-default" onclick="history.go(-1);">' + theUILang.Cancel + '</button>' +
+        html;
+      for (const dir of data.directories) {
+        html += '<tr onclick="mobile.drawGetDir(\'' + decodeURIComponent(data.path+dir) + '\');">' +
+        '<td><i class="glyphicon glyphicon-folder-open icon-white" style="margin-right: 8px;"></i>' + dir + '</td></tr>';
       }
 
       html += '</tbody></table>';
@@ -1003,7 +1000,7 @@ plugin.updateTrackerDropdown = function () {
 plugin.loadRatio = function () {
   var ratio = thePlugins.get("ratio");
   if (ratio.allStuffLoaded) {
-    $('#priority').after('<tr id="ratiogrp"><td></td><td><select id="torrentRatioGrp"></select></td></tr>');
+    $('#priority').after('<tr id="ratiogrp"><td></td><td><select id="torrentRatioGrp" class="form-control"></select></td></tr>');
     $('#torrentRatioGrp').change(function(){mobile.changeRatioGrp()});
     var ratioHTML = '<option value="-1">' + theUILang.mnuRatioUnlimited + '</option>'
     $.each(theWebUI.ratios, function(i, v) {
@@ -1011,7 +1008,7 @@ plugin.loadRatio = function () {
     });
     $('#torrentRatioGrp').html(ratioHTML);
     $('#ratiogrp').children('td:first').text(theUILang.ratio);
-    
+
     rTorrentStub.prototype.setratio = function()
     {
       for(var i=0; i<this.vs.length; i++)
@@ -1052,7 +1049,7 @@ plugin.loadRatio = function () {
 plugin.loadThrottle = function () {
   var throttle = thePlugins.get("throttle");
   if (throttle.allStuffLoaded) {
-    $('#priority').after('<tr id="throttle"><td></td><td><select id="torrentChannel"></select></td></tr>');
+    $('#priority').after('<tr id="throttle"><td></td><td><select id="torrentChannel" class="form-control"></select></td></tr>');
     $('#torrentChannel').change(function(){mobile.changeChannel()});
     var throttleHTML = '<option value="-1">' + theUILang.mnuUnlimited + '</option>';
     $.each(theWebUI.throttles, function(i, v) {
@@ -1060,7 +1057,7 @@ plugin.loadThrottle = function () {
     });
     $('#torrentChannel').html(throttleHTML);
     $('#throttle').children('td:first').text(theUILang.throttle);
-  
+
     rTorrentStub.prototype.setthrottle = function()
     {
       for(var i=0; i<this.vs.length; i++)
@@ -1184,11 +1181,11 @@ plugin.update = function(singleUpdate) {
 
         if ( ! listHtml.find($('#' + v.hash)).length || singleUpdate) {
           listHtmlString +=
-          '<tr id="' + v.hash + '" class="torrentBlock status' + statusClass + ' state' + stateClass + ' error' + errorClass + ' label' + plugin.labelIds[v.label] + '" onclick="mobile.showDetails(this.id);"><td>' +
-          '<h5>' + v.name + '</h5>' +
-          '<span>' + status[1] + ((v.ul) ? ' ↑' + theConverter.speed(v.ul) : '') + ((v.dl) ? ' ↓' + theConverter.speed(v.dl) : '') + ' | ' + ((status[1] == 'Downloading') ? (theUILang.ETA + ' ' + ((v.eta ==- 1) ? "&#8734;" : theConverter.time(v.eta))) : (theUILang.Ratio + ' ' + ((v.ratio ==- 1) ? "&#8734;" : theConverter.round(v.ratio/1000,3)))) + ((v.msg) ? ' | <i class="text-danger">' + v.msg + '</i>' : '') + '</span>' +
+          '<tr id="' + v.hash + '" class="torrentBlock status' + statusClass + ' state' + stateClass + ' error' + errorClass + ' label' + plugin.labelIds[v.label] + (v.msg ? ' danger' : '') + '" onclick="mobile.showDetails(this.id);"><td>' +
+          '<h6>' + v.name + '</h6>' +
+          '<span>' + status[1] + ((v.ul) ? ' ↑' + theConverter.speed(v.ul) : '') + ((v.dl) ? ' ↓' + theConverter.speed(v.dl) : '') + ' | ' + ((status[1] == 'Downloading') ? (theUILang.ETA + ' ' + ((v.eta ==- 1) ? "&#8734;" : theConverter.time(v.eta))) : (theUILang.Ratio + ' ' + ((v.ratio ==- 1) ? "&#8734;" : theConverter.round(v.ratio/1000,3)))) + ((v.msg) ? ' | <i class="text">' + v.msg + '</i>' : '') + '</span>' +
           '<div class="progress' + ((v.done == 1000) ? '' : ' active') + '">' +
-          '<div class="progress-bar progress-bar-striped" style="width: ' + percent + '%;">' + percent + '% ' + theUILang.of + ' ' + theConverter.bytes(v.size,2) + '</div>' +
+          '<div class="progress-bar progress-bar-success" style="width: ' + percent + '%;">' + percent + '% ' + theUILang.of + ' ' + theConverter.bytes(v.size,2) + '</div>' +
           '</div>' +
           '</td></tr>';
         } else if ( ! isEqual(plugin.torrents[v.hash], plugin.torrentsPrev[v.hash]) ) {
@@ -1198,7 +1195,8 @@ plugin.update = function(singleUpdate) {
           listHtml.find($('#' + v.hash)).addClass('state' + stateClass);
           listHtml.find($('#' + v.hash)).addClass('error' + errorClass);
           listHtml.find($('#' + v.hash)).addClass('label' + plugin.labelIds[v.label]);
-          listHtml.find($('#' + v.hash + ' span')).html(status[1] + ((v.ul) ? ' ↑' + theConverter.speed(v.ul) : '') + ((v.dl) ? ' ↓' + theConverter.speed(v.dl) : '') + ' | ' + ((status[1] == 'Downloading') ? (theUILang.ETA + ' ' + ((v.eta ==- 1) ? "&#8734;" : theConverter.time(v.eta))) : (theUILang.Ratio + ' ' + ((v.ratio ==- 1) ? "&#8734;" : theConverter.round(v.ratio/1000,3)))) + ((v.msg) ? ' | <i class="text-danger">' + v.msg + '</i>' : ''));
+          if (v.msg) listHtml.find($('#' + v.hash)).addClass('danger')
+          listHtml.find($('#' + v.hash + ' span')).html(status[1] + ((v.ul) ? ' ↑' + theConverter.speed(v.ul) : '') + ((v.dl) ? ' ↓' + theConverter.speed(v.dl) : '') + ' | ' + ((status[1] == 'Downloading') ? (theUILang.ETA + ' ' + ((v.eta ==- 1) ? "&#8734;" : theConverter.time(v.eta))) : (theUILang.Ratio + ' ' + ((v.ratio ==- 1) ? "&#8734;" : theConverter.round(v.ratio/1000,3)))) + ((v.msg) ? ' | <i class="text">' + v.msg + '</i>' : ''));
           listHtml.find($('#' + v.hash + ' .progress')).removeClass('active');
           if (v.done != 1000) {
             listHtml.find($('#' + v.hash + ' .progress')).addClass('active');
@@ -1278,9 +1276,9 @@ plugin.update = function(singleUpdate) {
 
       $('#upspeed').text(theConverter.speed(tul));
       $('#downspeed').text(theConverter.speed(tdl));
-      
+
       plugin.torrentsPrev = plugin.torrents;
-      
+
       if (!singleUpdate) {
         setTimeout(function() {mobile.update();}, theWebUI.settings['webui.update_interval']);
       }
@@ -1320,9 +1318,9 @@ plugin.disableOthers = function() {
     dxSTable.prototype.refreshRows = function( height, fromScroll ) { }
 
     dxSTable.prototype.getAttr = function (row, attrName) { }
-    
+
     dxSTable.prototype.setAttr = function(row, attr) { }
-    
+
     dxSTable.prototype.setIcon = function(row, icon) { }
 
     theWebUI.filterByLabel = function() { }
@@ -1419,11 +1417,11 @@ plugin.init = function() {
           $('#torrentsTrackers').removeClass('open');
         });
       }
-      
+
       $('#torrentsLabels > a').click(function(){
         plugin.updateLabelDropdown();
       });
-      
+
       $('#torrentsTrackers > a').click(function(){
         plugin.updateTrackerDropdown();
       });
@@ -1495,18 +1493,18 @@ plugin.init = function() {
       });
 
       if (thePlugins.isInstalled('erasedata')) {
-        $('#confimTorrentDelete h5').after(
+        $('#confimTorrentDelete h6').after(
           '<div class="checkbox"><label" id="deleteWithData">' +
           '<input type="checkbox"> ' + theUILang.Delete_data + '</label></div>');
 
           plugin.eraseWithDataLoaded = true;
         }
-        
+
         if (thePlugins.isInstalled('throttle')) {
           plugin.throttleLoaded = true;
           plugin.loadThrottle();
         }
-        
+
         if (thePlugins.isInstalled('ratio')) {
           plugin.ratioGroupsLoaded = true;
           plugin.loadRatio();
@@ -1516,7 +1514,7 @@ plugin.init = function() {
           plugin.getDirLoaded = true;
           $('#dirEditBlock').append('<input type="button" class="btn btn-default btn-sm" id="showGetDir" type="button" onclick="mobile.showGetDir();" value="..."></input>');
         }
-        
+
         if (thePlugins.isInstalled('seedingtime')) {
           plugin.seedingtimeLoaded = true;
           plugin.loadSeedingTime();
@@ -1540,8 +1538,8 @@ plugin.onLangLoaded = function() {
     $(v).children('td:first').text(theUILang[detailsIdToLangId[v.id]]);
   });
 
-  $('#dlLimit').parent().children('label').children('h5').text(theUILang.Glob_max_downl);
-  $('#ulLimit').parent().children('label').children('h5').text(theUILang.Global_max_upl);
+  $('#dlLimit').parent().children('label').children('h6').text(theUILang.Glob_max_downl);
+  $('#ulLimit').parent().children('label').children('h6').text(theUILang.Global_max_upl);
   $('#speedLimitsOk').text(theUILang.ok);
   $('#speedLimitsCancel').text(theUILang.Cancel);
 
@@ -1550,13 +1548,13 @@ plugin.onLangLoaded = function() {
 
   $('#deleteOk').text(theUILang.ok);
   $('#deleteCancel').text(theUILang.Cancel);
-  
+
   $('#sortAsc').append(' ' + theUILang.acs);
   $('#sortDesc').append(' ' + theUILang.decs);
-  $('#sortOption').parent().children('label').children('h5').text(theUILang.SortTorrents);
+  $('#sortOption').parent().children('label').children('h6').text(theUILang.SortTorrents);
   $('#sortOk').text(theUILang.ok);
   $('#sortCancel').text(theUILang.Cancel);
-  
+
   $('#peersTable th').each(function(n, v) {
     $(v).text(theUILang[peersIdToLangId[v.id]]);
   });
