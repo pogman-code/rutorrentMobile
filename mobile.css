@@ -64,6 +64,11 @@ h6, #detailsTrackersPage a, #detailsFilesPage a, #detailsDetailsPage #label td, 
   font-size: 12px;
 }
 
+.label-info {
+  float: right;
+  font-size: 10px;
+}
+
 
 /*** navbar bottom ***/
 .navbar {

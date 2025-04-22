@@ -1175,6 +1175,8 @@ plugin.update = function(singleUpdate) {
         var stateClass = (v.ul || v.dl) ? 'Active' : 'Inactive';
         var errorClass = (v.state & dStatus.error) ? 'Yes' : 'No';
         var percent = v.done / 10;
+        var rx = /"(.*)\\"/g;
+        var digestMsg = v.msg ? rx.exec(v.msg)[1] : '';
 
         tul += iv(v.ul);
         tdl += iv(v.dl);
@@ -1183,7 +1185,7 @@ plugin.update = function(singleUpdate) {
           listHtmlString +=
           '<tr id="' + v.hash + '" class="torrentBlock status' + statusClass + ' state' + stateClass + ' error' + errorClass + ' label' + plugin.labelIds[v.label] + (v.msg ? ' danger' : '') + '" onclick="mobile.showDetails(this.id);"><td>' +
           '<h6>' + v.name + '</h6>' +
-          '<span>' +
+          '<span style="display:block;">' +
             status[1] +
             ((v.ul) ? ' ↑' + theConverter.speed(v.ul) : '') +
             ((v.dl) ? ' ↓' + theConverter.speed(v.dl) : '') +
@@ -1193,7 +1195,9 @@ plugin.update = function(singleUpdate) {
                 (theUILang.ETA + ' ' + ((v.eta ==- 1) ? "&#8734;" : theConverter.time(v.eta))) :
                 (theUILang.Ratio + ' ' + ((v.ratio ==- 1) ? "&#8734;" : '<span class="stable-List-col-6"><div style="display: inline;">' + theConverter.round(v.ratio/1000,3) + '</div></span>'))
             ) +
-            ((v.msg) ? ' | <i class="text">' + v.msg + '</i>' : '') + '</span>' +
+            ((v.msg) ? ' | <i class="text">' + digestMsg + '</i>' : '') +
+            ((v.label) ? '<small class="label label-info">' + v.label + '</small>' : '') +
+          '</span>' +
           '<div class="progress' + ((v.done == 1000) ? '' : ' active') + '">' +
           '<div class="progress-bar progress-bar-success" style="width: ' + percent + '%;">' + percent + '% ' + theUILang.of + ' ' + theConverter.bytes(v.size,2) + '</div>' +
           '</div>' +
@@ -1214,9 +1218,10 @@ plugin.update = function(singleUpdate) {
             (
               (status[1] == 'Downloading') ?
                 (theUILang.ETA + ' ' + ((v.eta ==- 1) ? "&#8734;" : theConverter.time(v.eta))) :
-              (theUILang.Ratio + ' ' + ((v.ratio ==- 1) ? "&#8734;" : '<span class="stable-List-col-6"><div style="display: inline;">' + theConverter.round(v.ratio/1000,3) + '</div></span>'))
+                (theUILang.Ratio + ' ' + ((v.ratio ==- 1) ? "&#8734;" : '<span class="stable-List-col-6"><div style="display: inline;">' + theConverter.round(v.ratio/1000,3) + '</div></span>'))
             ) +
-            ((v.msg) ? ' | <i class="text">' + v.msg + '</i>' : '')
+            ((v.msg) ? ' | <i class="text">' + digestMsg + '</i>' : '') +
+            ((v.label) ? '<small class="label label-info">' + v.label + '</small>' : '')
           );
           listHtml.find($('#' + v.hash + ' .progress')).removeClass('active');
           if (v.done != 1000) {
