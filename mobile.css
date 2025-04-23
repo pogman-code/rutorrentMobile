@@ -1,15 +1,21 @@
 /*** General ***/
-html, body {
+html,
+body {
   overflow: visible;
 }
-a, button, tr, select, input, label {
+a,
+button,
+tr,
+select,
+input,
+label {
   -webkit-tap-highlight-color: transparent;
 }
 div input {
   margin: 0px;
 }
 select {
-  width:auto;
+  width: auto;
 }
 .hiddenPath {
   display: none;
@@ -36,7 +42,8 @@ select {
 .icon-black {
   color: black;
 }
-a:hover, a:focus {
+a:hover,
+a:focus {
   color: #428bca;
   outline: none;
   text-decoration: none;
@@ -49,7 +56,7 @@ a:hover, a:focus {
 }
 .progress .progress-bar {
   white-space: nowrap;
-  text-shadow:1px 1px 3px #000;
+  text-shadow: 1px 1px 3px #000;
 }
 .progress {
   margin-bottom: 0;
@@ -57,8 +64,13 @@ a:hover, a:focus {
 h6 {
   margin-top: 0;
 }
-h6, #detailsTrackersPage a, #detailsFilesPage a, #detailsDetailsPage #label td, .nav a, #getDirList td {
-  word-break:break-all;
+h6,
+#detailsTrackersPage a,
+#detailsFilesPage a,
+#detailsDetailsPage #label td,
+.nav a,
+#getDirList td {
+  word-break: break-all;
 }
 #torrentsList #list span {
   font-size: 12px;
@@ -69,11 +81,10 @@ h6, #detailsTrackersPage a, #detailsFilesPage a, #detailsDetailsPage #label td, 
   font-size: 10px;
 }
 
-
 /*** navbar bottom ***/
 .navbar {
   max-height: 51px;
-  overflow: scroll
+  overflow: scroll;
 }
 .navbar .nav > li {
   float: left;
@@ -82,7 +93,9 @@ h6, #detailsTrackersPage a, #detailsFilesPage a, #detailsDetailsPage #label td, 
 .navbar .nav > li:last-child {
   margin-right: 0px;
 }
-.navbar .nav > li > a, .navbar .nav > li > a:hover, .navbar .nav > li > a:focus {
+.navbar .nav > li > a,
+.navbar .nav > li > a:hover,
+.navbar .nav > li > a:focus {
   display: table-cell;
   vertical-align: middle;
   padding: 0;
@@ -119,7 +132,6 @@ h6, #detailsTrackersPage a, #detailsFilesPage a, #detailsDetailsPage #label td, 
   border-left: 1px solid #111111;
 }
 
-
 /*** navtabs top ***/
 .nav-tabs {
   background-color: #222;
@@ -142,12 +154,8 @@ h6, #detailsTrackersPage a, #detailsFilesPage a, #detailsDetailsPage #label td, 
   display: inline;
   top: 9px;
 }
-.nav-tabs .open .dropdown-toggle {
-  /* color: #fff !important; */
-  /* background-color: #999 !important; */
-  /* border-color: #999 !important; */
-}
-.nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus {
   background-color: transparent;
   border-color: transparent;
 }
@@ -158,9 +166,10 @@ h6, #detailsTrackersPage a, #detailsFilesPage a, #detailsDetailsPage #label td, 
   float: right;
 }
 
-
 /*** Torrent Details ***/
-#torrentDetailsHeader, #detailsTrackersPage, #detailsFilesPage {
+#torrentDetailsHeader,
+#detailsTrackersPage,
+#detailsFilesPage {
   padding-top: 9px;
   padding-left: 8px;
   padding-right: 8px;
@@ -169,7 +178,7 @@ h6, #detailsTrackersPage a, #detailsFilesPage a, #detailsDetailsPage #label td, 
   white-space: nowrap;
 }
 #torrentDetails #detailsDetailsPage tr td:last-child {
- word-break: break-all;
+  word-break: break-all;
 }
 #torrentDetails #detailsDetailsPage #label input {
   display: inline;
@@ -189,7 +198,6 @@ h6, #detailsTrackersPage a, #detailsFilesPage a, #detailsDetailsPage #label td, 
   margin-left: 4px;
 }
 
-
 /*** Add Torrent ***/
 #addTorrent {
   margin-top: -20px;
@@ -197,7 +205,6 @@ h6, #detailsTrackersPage a, #detailsFilesPage a, #detailsDetailsPage #label td, 
 #addTorrent #showGetDir {
   height: 34px;
 }
-
 
 /*** Get Dir List ***/
 #getDirList {
@@ -220,29 +227,27 @@ h6, #detailsTrackersPage a, #detailsFilesPage a, #detailsDetailsPage #label td, 
   margin-top: -20px;
 }
 
-
 /*** Global Settings ***/
 #globalSettings {
   margin-top: -20px;
 }
-
 
 /*** Confirm Delete ***/
 #confimTorrentDelete #confirmText {
   word-break: normal;
 }
 
-.table>thead>tr>td.danger,
-.table>tbody>tr>td.danger,
-.table>tfoot>tr>td.danger,
-.table>thead>tr>th.danger,
-.table>tbody>tr>th.danger,
-.table>tfoot>tr>th.danger,
-.table>thead>tr.danger>td,
-.table>tbody>tr.danger>td,
-.table>tfoot>tr.danger>td,
-.table>thead>tr.danger>th,
-.table>tbody>tr.danger>th,
-.table>tfoot>tr.danger>th {
-  background: #CC000066;
+.table > thead > tr > td.danger,
+.table > tbody > tr > td.danger,
+.table > tfoot > tr > td.danger,
+.table > thead > tr > th.danger,
+.table > tbody > tr > th.danger,
+.table > tfoot > tr > th.danger,
+.table > thead > tr.danger > td,
+.table > tbody > tr.danger > td,
+.table > tfoot > tr.danger > td,
+.table > thead > tr.danger > th,
+.table > tbody > tr.danger > th,
+.table > tfoot > tr.danger > th {
+  background: #cc000066;
 }
