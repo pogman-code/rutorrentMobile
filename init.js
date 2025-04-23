@@ -213,7 +213,8 @@ plugin.showAlert = function (message, alerttype) {
         <span aria-hidden="true">&times;</span>
         <span class="sr-only">Close</span>
       </button>${message}
-    </div>`);
+    </div>
+  `);
 
   setTimeout(function () {
     $('#alertdiv').removeClass('in');
@@ -225,11 +226,12 @@ plugin.showAlert = function (message, alerttype) {
 
 plugin.createiFrame = function () {
   $('#addTorrent').prepend(`
-    <iframe 
+    <iframe
       id="uploadFrame"
       name="uploadFrame"
       style="visibility: hidden; width: 0; height: 0; line-height: 0; font-size: 0; border: 0;">
-    </iframe>`);
+    </iframe>
+  `);
 
   $('#uploadFrame').on('load', function () {
     var d = this.contentDocument || this.contentWindow.document;
@@ -554,43 +556,23 @@ plugin.showSort = function () {
     $('#sort_asc').prop('checked', true);
   }
 
-  sortHtml =
-    '<option value="name">' +
-    theUILang.Name +
-    '</option>' +
-    '<option value="size">' +
-    theUILang.Size +
-    '</option>' +
-    '<option value="uploaded">' +
-    theUILang.Uploaded +
-    '</option>' +
-    '<option value="downloaded">' +
-    theUILang.Downloaded +
-    '</option>' +
-    '<option value="done">' +
-    theUILang.Done +
-    '</option>' +
-    '<option value="eta">' +
-    theUILang.ETA +
-    '</option>' +
-    '<option value="ul">' +
-    theUILang.Ul_speed +
-    '</option>' +
-    '<option value="dl">' +
-    theUILang.Down_speed +
-    '</option>' +
-    '<option value="ratio">' +
-    theUILang.Ratio +
-    '</option>';
+  sortHtml = `
+    <option value="name">${theUILang.Name}</option>
+    <option value="size">${theUILang.Size}</option>
+    <option value="uploaded">${theUILang.Uploaded}</option>
+    <option value="downloaded">${theUILang.Downloaded}</option>
+    <option value="done">${theUILang.Done}</option>
+    <option value="eta">${theUILang.ETA}</option>
+    <option value="ul">${theUILang.Ul_speed}</option>
+    <option value="dl">${theUILang.Down_speed}</option>
+    <option value="ratio">${theUILang.Ratio}</option>
+  `;
 
   if (this.seedingtimeLoaded) {
-    sortHtml +=
-      '<option value="addtime">' +
-      theUILang.addTime +
-      '</option>' +
-      '<option value="seedingtime">' +
-      theUILang.seedingTime +
-      '</option>';
+    sortHtml += `
+      <option value="addtime">${theUILang.addTime}</option>
+      <option value="seedingtime">${theUILang.seedingTime}</option>
+    `;
   }
   $('#sortOption').html(sortHtml);
   $('#sortOption option[value=' + sort + ']').prop('selected', true);
@@ -631,11 +613,11 @@ plugin.fillLabel = function (label) {
     return;
   }
 
-  $('#torrentDetails #label td:last')
-    .text(label + ' ')
-    .append(
-      '<button class="btn btn-default btn-sm" type="button" onclick="mobile.editLabel();"><i class="glyphicon glyphicon-edit .icon-white"></i></button>',
-    );
+  $('#torrentDetails #label td:last').text(label + ' ').append(`
+      <button class="btn btn-default btn-sm" type="button" onclick="mobile.editLabel();">
+        <i class="glyphicon glyphicon-edit .icon-white"></i>
+      </button>
+    `);
 };
 
 plugin.fillDetails = function (d) {
@@ -649,11 +631,11 @@ plugin.fillDetails = function (d) {
   $('#torrentProgress .progress-bar').css('width', percent + '%');
   $('#torrentProgress .progress-bar').text(percent + '% ' + theUILang.of + ' ' + theConverter.bytes(d.size, 2));
 
-  $('#torrentDetails #status td:last')
-    .text(theWebUI.getStatusIcon(d)[1] + ' ')
-    .append(
-      '<button class="btn btn-default btn-sm" type="button" onclick="mobile.recheck();"><i class="glyphicon glyphicon-refresh .icon-white"></i></button>',
-    );
+  $('#torrentDetails #status td:last').text(theWebUI.getStatusIcon(d)[1] + ' ').append(`
+      <button class="btn btn-default btn-sm" type="button" onclick="mobile.recheck();">
+        <i class="glyphicon glyphicon-refresh .icon-white"></i>
+      </button>
+    `);
   $('#torrentPriority option').prop('selected', false);
   $('#torrentPriority option[value=' + d.priority + ']').prop('selected', true);
 
@@ -731,13 +713,14 @@ plugin.changeChannel = function () {
 
 plugin.editLabel = function () {
   plugin.labelInEdit = true;
-  $('#torrentDetails #label td:last').html(
-    '<div class="input-append">' +
-      '<input class="form-control" id="labelEdit" type="text" value="' +
-      plugin.torrent.label +
-      '"/>' +
-      '<button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-ok icon-white"></i></button></div>',
-  );
+  $('#torrentDetails #label td:last').html(`
+    <div class="input-append">
+      <input class="form-control" id="labelEdit" type="text" value="${plugin.torrent.label}"/>
+      <button class="btn btn-default btn-sm">
+        <i class="glyphicon glyphicon-ok icon-white"></i>
+      </button>
+    </div>
+  `);
   $('#labelEdit').focus();
   $('#labelEdit').blur(function () {
     var newLabel = $('#labelEdit').val();
@@ -820,65 +803,57 @@ plugin.loadTrackers = function () {
         var trackersHtml = '<div class="panel-group" id="trackersAccordion">';
 
         for (var i = 0; i < trackers.length; i++) {
-          trackersHtml +=
-            '<div class="panel panel-default"><div class="panel-heading">' +
-            '<a class="accordion-toggle" data-toggle="collapse" data-parent="#trackersAccordion" href="#tracker' +
-            i +
-            '">' +
-            trackers[i].name +
-            '</a></div>' +
-            '<div id="tracker' +
-            i +
-            '" class="panel-collapse collapse"><div class="panel-body">' +
-            '<table class=" table table-striped"><tbody>' +
-            '<tr><td>' +
-            theUILang.Type +
-            '</td><td>' +
-            theFormatter.trackerType(trackers[i].type) +
-            '</td></tr>' +
-            '<tr><td>' +
-            theUILang.Enabled +
-            '</td><td>' +
-            theFormatter.yesNo(trackers[i].enabled) +
-            '</td></tr>' +
-            '<tr><td>' +
-            theUILang.Group +
-            '</td><td>' +
-            trackers[i].group +
-            '</td></tr>' +
-            '<tr><td>' +
-            theUILang.Seeds +
-            '</td><td>' +
-            trackers[i].seeds +
-            '</td></tr>' +
-            '<tr><td>' +
-            theUILang.Peers +
-            '</td><td>' +
-            trackers[i].peers +
-            '</td></tr>' +
-            '<tr><td>' +
-            theUILang.scrapeDownloaded +
-            '</td><td>' +
-            trackers[i].downloaded +
-            '</td></tr>' +
-            '<tr><td>' +
-            theUILang.scrapeUpdate +
-            '</td><td>' +
-            (trackers[i].last
-              ? theConverter.time($.now() / 1000 - trackers[i].last - theWebUI.deltaTime / 1000, true)
-              : '') +
-            '</td></tr>' +
-            '<tr><td>' +
-            theUILang.trkInterval +
-            '</td><td>' +
-            theConverter.time(trackers[i].interval) +
-            '</td></tr>' +
-            '<tr><td>' +
-            theUILang.trkPrivate +
-            '</td><td>' +
-            theFormatter.yesNo(theWebUI.trkIsPrivate(trackers[i].name)) +
-            '</td></tr>' +
-            '</tbody></table></div></div></div>';
+          trackersHtml += `
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#trackersAccordion" href="#tracker${i}">${trackers[i].name}</a>
+              </div>
+              <div id="tracker${i}" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <table class=" table table-striped">
+                    <tbody>
+                      <tr>
+                        <td>${theUILang.Type}</td>
+                        <td>${theFormatter.trackerType(trackers[i].type)}</td>
+                      </tr>
+                      <tr>
+                        <td>${theUILang.Enabled}</td>
+                        <td>${theFormatter.yesNo(trackers[i].enabled)}</td>
+                      </tr>
+                      <tr>
+                        <td>${theUILang.Group}</td>
+                        <td>${trackers[i].group}</td>
+                      </tr>
+                      <tr>
+                        <td>${theUILang.Seeds}</td>
+                        <td>${trackers[i].seeds}</td>
+                      </tr>
+                      <tr>
+                        <td>${theUILang.Peers}</td>
+                        <td>${trackers[i].peers}</td>
+                      </tr>
+                      <tr>
+                        <td>${theUILang.scrapeDownloaded}</td>
+                        <td>${trackers[i].downloaded}</td>
+                      </tr>
+                      <tr>
+                        <td>${theUILang.scrapeUpdate}</td>
+                        <td>${trackers[i].last ? theConverter.time($.now() / 1000 - trackers[i].last - theWebUI.deltaTime / 1000, true) : ''}</td>
+                      </tr>
+                      <tr>
+                        <td>${theUILang.trkInterval}</td>
+                        <td>${theConverter.time(trackers[i].interval)}</td>
+                      </tr>
+                      <tr>
+                        <td>${theUILang.trkPrivate}</td>
+                        <td>${theFormatter.yesNo(theWebUI.trkIsPrivate(trackers[i].name))}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          `;
         }
 
         trackersHtml += '</div>';
@@ -915,41 +890,19 @@ plugin.loadPeers = function () {
         var peersHtml = '';
 
         for (var i = 0; i < pid.length; i++) {
-          peersHtml +=
-            '<tr>' +
-            '<td>' +
-            peers[pid[i]].ip +
-            ':' +
-            peers[pid[i]].port +
-            '</td>' +
-            '<td>' +
-            peers[pid[i]].version +
-            '</td>' +
-            '<td>' +
-            peers[pid[i]].flags +
-            '</td>' +
-            '<td>' +
-            peers[pid[i]].done +
-            '%</td>' +
-            '<td>' +
-            theConverter.bytes(peers[pid[i]].downloaded, 2) +
-            '</td>' +
-            '<td>' +
-            theConverter.bytes(peers[pid[i]].uploaded, 2) +
-            '</td>' +
-            '<td>' +
-            theConverter.speed(peers[pid[i]].dl) +
-            '</td>' +
-            '<td>' +
-            theConverter.speed(peers[pid[i]].ul) +
-            '</td>' +
-            '<td>' +
-            theConverter.speed(peers[pid[i]].peerdl) +
-            '</td>' +
-            '<td>' +
-            theConverter.bytes(peers[pid[i]].peerdownloaded, 2) +
-            '</td>' +
-            '</tr>';
+          peersHtml += `
+            <tr>
+              <td>${peers[pid[i]].ip}:${peers[pid[i]].port}</td>
+              <td>${peers[pid[i]].version}</td>
+              <td>${peers[pid[i]].flags}</td>
+              <td>${peers[pid[i]].done}%</td>
+              <td>${theConverter.bytes(peers[pid[i]].downloaded, 2)}</td>
+              <td>${theConverter.bytes(peers[pid[i]].uploaded, 2)}</td>
+              <td>${theConverter.speed(peers[pid[i]].dl)}</td>
+              <td>${theConverter.speed(peers[pid[i]].ul)}</td>
+              <td>${theConverter.speed(peers[pid[i]].peerdl)}</td>
+              <td>${theConverter.bytes(peers[pid[i]].peerdownloaded, 2)}</td>
+            </tr>`;
         }
 
         $('#peersTable tbody').html(peersHtml);
@@ -1016,79 +969,62 @@ plugin.drawFiles = function (p) {
       i = 0;
     }
     var upperDir = realPath.substr(0, i);
-    filesHtml +=
-      '<a href="javascript://void();" onclick="mobile.drawFiles(\'' +
-      upperDir +
-      '\');">' +
-      '<i class="glyphicon glyphicon-folder-open icon-white"></i> ..</a><hr>';
+    filesHtml += `
+      <a
+        href="javascript://void();"
+        onclick="mobile.drawFiles('${upperDir}');"
+      ><i class="glyphicon glyphicon-folder-open icon-white"></i> ..</a>
+      <hr>
+    `;
   }
 
   for (var name in dir.container) {
-    filesHtml +=
-      '<div>' +
-      '<div class="hiddenPath">' +
-      realPath +
-      '/' +
-      name +
-      '</div>' +
-      '<button onclick="mobile.toggleDisplay($(this).parent().find(\'.prioritySelect\'));" class="btn btn-default btn-sm pull-right"><i class="glyphicon glyphicon-th-list icon-white"></i></button>';
+    filesHtml += `
+      <div>
+        <div class="hiddenPath">${realPath}/${name}</div>
+        <button onclick="mobile.toggleDisplay(\$(this).parent().find('.prioritySelect'));" class="btn btn-default btn-sm pull-right">
+          <i class="glyphicon glyphicon-th-list icon-white"></i>
+        </button>
+      `;
 
     if (dir.container[name].directory) {
-      filesHtml +=
-        '<a href="javascript://void();" onclick="mobile.drawFiles(\'' +
-        realPath +
-        '/' +
-        name +
-        '\');">' +
-        '<i class="glyphicon glyphicon-folder-open icon-white"></i>&nbsp;' +
-        name +
-        '</a>';
+      filesHtml += `
+        <a
+          href="javascript://void();"
+          onclick="mobile.drawFiles('${realPath}/${name}');"
+        ><i class="glyphicon glyphicon-folder-open icon-white"></i>&nbsp;${name}</a>`;
     } else {
       var idName = 'file' + dir.container[name].id;
-      filesHtml +=
-        '<a href="javascript://void();" onclick="mobile.toggleDisplay($(\'#' +
-        idName +
-        '\'));">' +
-        '<i class="glyphicon glyphicon-file icon-white"></i>&nbsp;' +
-        name +
-        '</a><div style="display:none;" id="' +
-        idName +
-        '">' +
-        '<table class="table table-striped"><tbody>' +
-        '<tr><td>' +
-        theUILang.Done +
-        '</td><td>' +
-        theConverter.bytes(dir.container[name].done) +
-        '</td></tr>' +
-        '<tr><td>' +
-        theUILang.Size +
-        '</td><td>' +
-        theConverter.bytes(dir.container[name].size) +
-        '</td></tr>' +
-        '</tbody></table></div>';
+      filesHtml += `
+        <a
+          href="javascript://void();"
+          onclick="mobile.toggleDisplay($('#${idName}'));"
+        ><i class="glyphicon glyphicon-file icon-white"></i>&nbsp;${name}</a>
+        <div style="display:none;" id="${idName}">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>${theUILang.Done}</td>
+                <td>${theConverter.bytes(dir.container[name].done)}</td>
+              </tr>
+              <tr>
+                <td>${theUILang.Size}</td>
+                <td>${theConverter.bytes(dir.container[name].size)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>`;
     }
 
-    filesHtml +=
-      '<select class="form-control prioritySelect" style="display:none;">' +
-      '<option disabled ' +
-      (dir.container[name].priority === -1 ? 'selected' : '') +
-      '></option>' +
-      '<option value="2" ' +
-      (dir.container[name].priority === 2 ? 'selected' : '') +
-      '>' +
-      theUILang.High_priority +
-      '</option>' +
-      '<option value="1" ' +
-      (dir.container[name].priority === 1 ? 'selected' : '') +
-      '>' +
-      theUILang.Normal_priority +
-      '</option>' +
-      '<option value="0" ' +
-      (dir.container[name].priority === 0 ? 'selected' : '') +
-      '>' +
-      theUILang.Dont_download +
-      '</option>' +
-      '</select></div><hr/>';
+    filesHtml += `
+      <select class="form-control prioritySelect" style="display:none;">
+        <option disabled ${dir.container[name].priority === -1 ? 'selected' : ''}></option>
+        <option value="2" ${dir.container[name].priority === 2 ? 'selected' : ''}>${theUILang.High_priority}</option>
+        <option value="1" ${dir.container[name].priority === 1 ? 'selected' : ''}>${theUILang.Normal_priority}</option>
+        <option value="0" ${dir.container[name].priority === 0 ? 'selected' : ''}>${theUILang.Dont_download}</option>
+      </select>`;
+
+    filesHtml += `</div><hr/>`;
   }
 
   $('#detailsFilesPage').html(filesHtml);
@@ -1262,32 +1198,29 @@ plugin.drawGetDir = function (path, first) {
       var re = /<td[\s]+code=\'([\S]+?)\'[\s\S]+?>&nbsp;&nbsp;([\s\S]+?)<\/td>/g;
       var match = null;
 
-      var html = '<table class="table table-striped"><tbody>';
+      var html = `
+        <h6>${decodeURIComponent(data.path)}</h6>
+        <button
+          class="btn btn-primary"
+          onclick="mobile.chooseGetDir('${decodeURIComponent(data.path)}');"
+        >${theUILang.ok}</button>
+        <button
+          class="btn btn-default"
+          onclick="history.go(-1);">${theUILang.Cancel}</button>
+        <table class="table table-striped">
+          <tbody>
+        `;
 
-      html =
-        '<h6>' +
-        decodeURIComponent(data.path) +
-        '</h6>' +
-        '<button class="btn btn-primary" onclick="mobile.chooseGetDir(\'' +
-        decodeURIComponent(data.path) +
-        '\');">' +
-        theUILang.ok +
-        '</button>' +
-        '<button class="btn btn-default" onclick="history.go(-1);">' +
-        theUILang.Cancel +
-        '</button>' +
-        html;
       for (const dir of data.directories) {
-        html +=
-          '<tr onclick="mobile.drawGetDir(\'' +
-          decodeURIComponent(data.path + dir) +
-          '\');">' +
-          '<td><i class="glyphicon glyphicon-folder-open icon-white" style="margin-right: 8px;"></i>' +
-          dir +
-          '</td></tr>';
+        html += `
+          <tr onclick="mobile.drawGetDir('${decodeURIComponent(data.path + dir)}');">
+            <td><i class="glyphicon glyphicon-folder-open icon-white" style="margin-right: 8px;"></i>${dir}</td>
+          </tr>
+        `;
       }
 
       html += '</tbody></table>';
+
       $('#getDirList').html(html);
 
       if (first === true) {
@@ -1336,15 +1269,18 @@ plugin.updateTrackerDropdown = function () {
 plugin.loadRatio = function () {
   var ratio = thePlugins.get('ratio');
   if (ratio.allStuffLoaded) {
-    $('#priority').after(
-      '<tr id="ratiogrp"><td></td><td><select id="torrentRatioGrp" class="form-control"></select></td></tr>',
-    );
+    $('#priority').after(`
+      <tr id="ratiogrp">
+        <td></td>
+        <td><select id="torrentRatioGrp" class="form-control"></select></td>
+      </tr>
+    `);
     $('#torrentRatioGrp').change(function () {
       mobile.changeRatioGrp();
     });
-    var ratioHTML = '<option value="-1">' + theUILang.mnuRatioUnlimited + '</option>';
+    var ratioHTML = `<option value="-1">${theUILang.mnuRatioUnlimited}</option>`;
     $.each(theWebUI.ratios, function (i, v) {
-      ratioHTML += '<option value="' + i + '">' + v.name + '</option>';
+      ratioHTML += `<option value="${i}">${v.name}</option>`;
     });
     $('#torrentRatioGrp').html(ratioHTML);
     $('#ratiogrp').children('td:first').text(theUILang.ratio);
@@ -1386,15 +1322,18 @@ plugin.loadRatio = function () {
 plugin.loadThrottle = function () {
   var throttle = thePlugins.get('throttle');
   if (throttle.allStuffLoaded) {
-    $('#priority').after(
-      '<tr id="throttle"><td></td><td><select id="torrentChannel" class="form-control"></select></td></tr>',
-    );
+    $('#priority').after(`
+      <tr id="throttle">
+        <td></td>
+        <td><select id="torrentChannel" class="form-control"></select></td>
+      </tr>
+    `);
     $('#torrentChannel').change(function () {
       mobile.changeChannel();
     });
-    var throttleHTML = '<option value="-1">' + theUILang.mnuUnlimited + '</option>';
+    var throttleHTML = `<option value="-1">${theUILang.mnuUnlimited}</option>`;
     $.each(theWebUI.throttles, function (i, v) {
-      throttleHTML += '<option value="' + i + '">' + v.name + '</option>';
+      throttleHTML += `<option value="${i}">${v.name}</option>`;
     });
     $('#torrentChannel').html(throttleHTML);
     $('#throttle').children('td:first').text(theUILang.throttle);
@@ -1489,12 +1428,13 @@ plugin.update = function (singleUpdate) {
       var tdl = 0;
       var nextLabelId = 1;
       var nextTrackerId = 1;
-      var labelsHtml =
-        '<li><a href="javascript://void();" onclick="mobile.filter(mobile.statusFilter.label, this, \'\');">' +
-        theUILang.No_label +
-        ' (' +
-        theWebUI.categoryList.panelLabelAttribs.plabel.get('-_-_-nlb-_-_-').count +
-        ')</a></li>';
+      var labelsHtml = `
+        <li>
+          <a
+            href="javascript://void();"
+            onclick="mobile.filter(mobile.statusFilter.label, this, '');"
+          >${theUILang.No_label} (${theWebUI.categoryList.panelLabelAttribs.plabel.get('-_-_-nlb-_-_-').count})</a>
+        </li>`;
       var trackersHtml = '';
 
       for (l of theWebUI.categoryList.panelLabelAttribs.plabel.keys()) {
@@ -1504,14 +1444,13 @@ plugin.update = function (singleUpdate) {
             plugin.labelIds[labelProper] = nextLabelId++;
           }
 
-          labelsHtml +=
-            '<li><a href="javascript://void();" onclick="mobile.filter(mobile.statusFilter.label, this, \'' +
-            labelProper +
-            '\');">' +
-            labelProper +
-            ' (' +
-            theWebUI.categoryList.panelLabelAttribs.plabel.get(l).count +
-            ')</a></li>';
+          labelsHtml += `
+            <li>
+              <a
+                href="javascript://void();"
+                onclick="mobile.filter(mobile.statusFilter.label, this, '${labelProper}');"
+              >${labelProper} (${theWebUI.categoryList.panelLabelAttribs.plabel.get(l).count})</a>
+            </li>`;
         }
       }
 
@@ -1543,53 +1482,38 @@ plugin.update = function (singleUpdate) {
           tdl += iv(v.dl);
 
           if (!listHtml.find($('#' + v.hash)).length || singleUpdate) {
-            listHtmlString +=
-              '<tr id="' +
-              v.hash +
-              '" class="torrentBlock status' +
-              statusClass +
-              ' state' +
-              stateClass +
-              ' error' +
-              errorClass +
-              ' label' +
-              plugin.labelIds[v.label] +
-              (v.msg ? ' danger' : '') +
-              '" onclick="mobile.showDetails(this.id);"><td>' +
-              '<h6>' +
-              v.name +
-              '</h6>' +
-              '<span style="display:block;">' +
-              status[1] +
-              (v.ul ? ' ↑' + theConverter.speed(v.ul) : '') +
-              (v.dl ? ' ↓' + theConverter.speed(v.dl) : '') +
-              ' | ' +
-              (status[1] === 'Downloading'
-                ? theUILang.ETA + ' ' + (v.eta === -1 ? '&#8734;' : theConverter.time(v.eta))
-                : theUILang.Ratio +
-                  ' ' +
-                  (v.ratio === -1
-                    ? '&#8734;'
-                    : '<span class="stable-List-col-6"><div style="display: inline;">' +
-                      theConverter.round(v.ratio / 1000, 3) +
-                      '</div></span>')) +
-              (v.msg ? ' | <i class="text">' + digestMsg + '</i>' : '') +
-              (v.label ? '<small class="label label-info">' + v.label + '</small>' : '') +
-              '</span>' +
-              '<div class="progress' +
-              (v.done === 1000 ? '' : ' active') +
-              '">' +
-              '<div class="progress-bar progress-bar-success" style="width: ' +
-              percent +
-              '%;">' +
-              percent +
-              '% ' +
-              theUILang.of +
-              ' ' +
-              theConverter.bytes(v.size, 2) +
-              '</div>' +
-              '</div>' +
-              '</td></tr>';
+            listHtmlString += `
+              <tr
+                id="${v.hash}"
+                class="torrentBlock status${statusClass} state${stateClass} error${errorClass} label${plugin.labelIds[v.label]}${v.msg ? ' danger' : ''}"
+                onclick="mobile.showDetails(this.id);">
+                <td>
+                  <h6>${v.name}</h6>
+                  <span style="display:block;">${status[1]}${v.ul ? ' ↑' + theConverter.speed(v.ul) : ''}${
+                    v.dl ? ' ↓' + theConverter.speed(v.dl) : ''
+                  } | ${
+                    status[1] === 'Downloading'
+                      ? theUILang.ETA + ' ' + (v.eta === -1 ? '&#8734;' : theConverter.time(v.eta))
+                      : theUILang.Ratio +
+                        ' ' +
+                        (v.ratio === -1
+                          ? '&#8734;'
+                          : '<span class="stable-List-col-6">' +
+                            '<div style="display: inline;">' +
+                            theConverter.round(v.ratio / 1000, 3) +
+                            '</div>' +
+                            '</span>')
+                  }${v.msg ? ' | <i class="text">' + digestMsg + '</i>' : ''}${
+                    v.label ? '<small class="label label-info">' + v.label + '</small>' : ''
+                  }</span>
+                  <div class="progress${v.done === 1000 ? '' : ' active'}">
+                    <div class="progress-bar progress-bar-success" style="width: ${percent}%;">
+                      ${percent}% ${theUILang.of} ${theConverter.bytes(v.size, 2)}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            `;
           } else if (!isEqual(plugin.torrents[v.hash], plugin.torrentsPrev[v.hash])) {
             listHtml.find($('#' + v.hash)).removeClass();
             listHtml.find($('#' + v.hash)).addClass('torrentBlock');
@@ -1611,9 +1535,7 @@ plugin.update = function (singleUpdate) {
                       ' ' +
                       (v.ratio === -1
                         ? '&#8734;'
-                        : '<span class="stable-List-col-6"><div style="display: inline;">' +
-                          theConverter.round(v.ratio / 1000, 3) +
-                          '</div></span>')) +
+                        : `<span class="stable-List-col-6"><div style="display: inline;">${theConverter.round(v.ratio / 1000, 3)}</div></span>`)) +
                   (v.msg ? ' | <i class="text">' + digestMsg + '</i>' : '') +
                   (v.label ? '<small class="label label-info">' + v.label + '</small>' : ''),
               );
@@ -1653,14 +1575,11 @@ plugin.update = function (singleUpdate) {
         Object.keys(trackersCount)
           .sort()
           .forEach(function (t) {
-            trackersHtml +=
-              '<li><a href="javascript://void();" onclick="mobile.filter(mobile.statusFilter.tracker, this, \'' +
-              t +
-              '\');">' +
-              t +
-              ' (' +
-              trackersCount[t] +
-              ')</a></li>';
+            trackersHtml += `
+              <li><a
+                href="javascript://void();"
+                onclick="mobile.filter(mobile.statusFilter.tracker, this, '${t}');"
+              >${t} (${trackersCount[t]})</a></li>`;
           });
         $('#torrentsTrackers ul').html(trackersHtml);
         if ($('#torrentsTrackers ul').is(':visible')) {
@@ -1876,20 +1795,12 @@ plugin.init = function () {
       $('#randomizeHash').append(' ' + theUILang.doRandomizeHash);
       $('#torrentFileSend').text(theUILang.add_button);
 
-      $('#torrentPriority').html(
-        '<option value="3">' +
-          theUILang.High_priority +
-          '</option>' +
-          '<option value="2">' +
-          theUILang.Normal_priority +
-          '</option>' +
-          '<option value="1">' +
-          theUILang.Low_priority +
-          '</option>' +
-          '<option value="0">' +
-          theUILang.Dont_download +
-          '</option>',
-      );
+      $('#torrentPriority').html(`
+        <option value="3">${theUILang.High_priority}</option
+        ><option value="2">${theUILang.Normal_priority}</option>
+        <option value="1">${theUILang.Low_priority}</option>
+        <option value="0">${theUILang.Dont_download}</option>
+      `);
 
       $('#torrentPriority').change(function () {
         mobile.changePriority();
@@ -1934,12 +1845,13 @@ plugin.init = function () {
       });
 
       if (thePlugins.isInstalled('erasedata')) {
-        $('#confimTorrentDelete h6').after(
-          '<div class="checkbox"><label" id="deleteWithData">' +
-            '<input type="checkbox"> ' +
-            theUILang.Delete_data +
-            '</label></div>',
-        );
+        $('#confimTorrentDelete h6').after(`
+          <div class="checkbox">
+            <label" id="deleteWithData">
+              <input type="checkbox"> ${theUILang.Delete_data}
+            </label>
+          </div>
+        `);
 
         plugin.eraseWithDataLoaded = true;
       }
