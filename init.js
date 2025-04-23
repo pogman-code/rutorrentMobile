@@ -33,7 +33,7 @@ plugin.seedingtimeLoaded = false;
 plugin.getDirLoaded = false;
 plugin.bootstrapJS = false;
 
-var pageToHash = {
+const pageToHash = {
   torrentsList: '',
   torrentDetails: 'details',
   globalSettings: 'settings',
@@ -43,7 +43,7 @@ var pageToHash = {
   getDirList: 'filesystem',
 };
 
-var detailsIdToLangId = {
+const detailsIdToLangId = {
   status: 'Status',
   done: 'Done',
   downloaded: 'Downloaded',
@@ -66,7 +66,7 @@ var detailsIdToLangId = {
   comment: 'Comment',
 };
 
-var peersIdToLangId = {
+const peersIdToLangId = {
   address: 'Address',
   client: 'ClientVersion',
   flags: 'Flags',
@@ -81,10 +81,10 @@ var peersIdToLangId = {
 
 if (!$type(theWebUI.getTrackerName)) {
   theWebUI.getTrackerName = function (announce) {
-    var domain = '';
+    let domain = '';
     if (announce) {
-      var parts = announce.match(
-        /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+      let parts = announce.match(
+        /^(?:([^:/?#]+):)?(?:\/\/((?:(([^:@]*):?([^:@]*))?@)?([^:/?#]*)(?::(\d*))?))?((((?:[^?#/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
       );
       if (parts && parts.length > 6) {
         domain = parts[6];
@@ -119,10 +119,10 @@ $(document).on('blur', 'input, select, textarea', function () {
   }, 0);
 });
 
-var isEqual = function (a, b) {
+const isEqual = function (a, b) {
   // Create arrays of property names
-  var aProps = Object.getOwnPropertyNames(a);
-  var bProps = Object.getOwnPropertyNames(b);
+  let aProps = Object.getOwnPropertyNames(a);
+  let bProps = Object.getOwnPropertyNames(b);
 
   // If number of properties is different,
   // objects are not equivalent
@@ -130,8 +130,8 @@ var isEqual = function (a, b) {
     return false;
   }
 
-  for (var i = 0; i < aProps.length; i++) {
-    var propName = aProps[i];
+  for (let i = 0; i < aProps.length; i++) {
+    let propName = aProps[i];
 
     // Skip checking if these properties are equal
     if (propName === 'free_diskspace') {
@@ -151,9 +151,9 @@ var isEqual = function (a, b) {
 };
 
 plugin.getRatioData = function (id) {
-  var curNo = -1;
-  var s = this.torrents[id].ratiogroup;
-  var arr = s.match(/rat_(\d{1,2})/);
+  let curNo = -1;
+  let s = this.torrents[id].ratiogroup;
+  let arr = s.match(/rat_(\d{1,2})/);
   if (arr && arr.length > 1) {
     curNo = arr[1];
   }
@@ -234,16 +234,18 @@ plugin.createiFrame = function () {
   `);
 
   $('#uploadFrame').on('load', function () {
-    var d = this.contentDocument || this.contentWindow.document;
+    let d = this.contentDocument || this.contentWindow.document;
 
     if (d && d.location.href !== 'about:blank') {
-      var matchedRegex = d.body.innerHTML.match(/noty\(".*"\+(.*),"(.*)"/);
+      let matchedRegex = d.body.innerHTML.match(/noty\(".*"\+(.*),"(.*)"/);
 
       if (matchedRegex !== null) {
-        var message = '';
+        let message = '';
         try {
           message = eval(matchedRegex[1]);
-        } catch (e) {}
+        } catch (e) {
+          console.error(e);
+        }
 
         if (message !== '') {
           if (matchedRegex[2] === 'success') {
@@ -301,20 +303,20 @@ plugin.filter = function (f, self, l) {
     $('#torrentsLabels > a > span').html(l);
     $('#torrentsList ul li').removeClass('active');
     $('#torrentsLabels').addClass('active');
-    var totalWidth = $('#torrentsList .nav').width();
-    var combinedWidth =
+    const totalWidth = $('#torrentsList .nav').width();
+    const combinedWidth =
       $('#torrentsStatus').outerWidth(true) +
       $('#torrentsTrackers').outerWidth(true) +
       $('#sort').outerWidth(true) +
       $('#refresh').outerWidth(true) +
       1;
-    var selfWidth = $('#torrentsLabels').width();
-    var selfExcess = $('#torrentsLabels').outerWidth(true) - selfWidth;
-    var diffWidth = totalWidth - combinedWidth - selfExcess;
+    const selfWidth = $('#torrentsLabels').width();
+    const selfExcess = $('#torrentsLabels').outerWidth(true) - selfWidth;
+    const diffWidth = totalWidth - combinedWidth - selfExcess;
 
     if (diffWidth < selfWidth && selfWidth > 0 && diffWidth > 0) {
       $('#torrentsLabels').width(diffWidth);
-      var spanWidth = $('#torrentsLabels > a').width() - $('#torrentsLabels > a > b').outerWidth(true);
+      const spanWidth = $('#torrentsLabels > a').width() - $('#torrentsLabels > a > b').outerWidth(true);
       $('#torrentsLabels > a > span').width(spanWidth);
     }
   } else if (f === this.statusFilter.tracker) {
@@ -326,20 +328,20 @@ plugin.filter = function (f, self, l) {
     $('#torrentsTrackers > a > span').html(l);
     $('#torrentsList ul li').removeClass('active');
     $('#torrentsTrackers').addClass('active');
-    var totalWidth = $('#torrentsList .nav').width();
-    var combinedWidth =
+    const totalWidth = $('#torrentsList .nav').width();
+    const combinedWidth =
       $('#torrentsStatus').outerWidth(true) +
       $('#torrentsLabels').outerWidth(true) +
       $('#sort').outerWidth(true) +
       $('#refresh').outerWidth(true) +
       1;
-    var selfWidth = $('#torrentsTrackers').width();
-    var selfExcess = $('#torrentsTrackers').outerWidth(true) - selfWidth;
-    var diffWidth = totalWidth - combinedWidth - selfExcess;
+    const selfWidth = $('#torrentsTrackers').width();
+    const selfExcess = $('#torrentsTrackers').outerWidth(true) - selfWidth;
+    const diffWidth = totalWidth - combinedWidth - selfExcess;
 
     if (diffWidth < selfWidth && selfWidth > 0 && diffWidth > 0) {
       $('#torrentsTrackers').width(diffWidth);
-      var spanWidth = $('#torrentsTrackers > a').width() - $('#torrentsTrackers > a > b').outerWidth(true);
+      const spanWidth = $('#torrentsTrackers > a').width() - $('#torrentsTrackers > a > b').outerWidth(true);
       $('#torrentsTrackers > a > span').width(spanWidth);
     }
   } else {
@@ -352,20 +354,20 @@ plugin.filter = function (f, self, l) {
       $('.statusDownloading').css({ display: '' });
       $('.statusCompleted').css({ display: '' });
       $('#torrentsStatus > a > span').html(theUILang.All);
-      var totalWidth = $('#torrentsList .nav').width();
-      var combinedWidth =
+      const totalWidth = $('#torrentsList .nav').width();
+      const combinedWidth =
         $('#torrentsTrackers').outerWidth(true) +
         $('#torrentsLabels').outerWidth(true) +
         $('#sort').outerWidth(true) +
         $('#refresh').outerWidth(true) +
         1;
-      var selfWidth = $('#torrentsStatus').width();
-      var selfExcess = $('#torrentsStatus').outerWidth(true) - selfWidth;
-      var diffWidth = totalWidth - combinedWidth - selfExcess;
+      const selfWidth = $('#torrentsStatus').width();
+      const selfExcess = $('#torrentsStatus').outerWidth(true) - selfWidth;
+      const diffWidth = totalWidth - combinedWidth - selfExcess;
 
       if (diffWidth < selfWidth && selfWidth > 0 && diffWidth > 0) {
         $('#torrentsStatus').width(diffWidth);
-        var spanWidth = $('#torrentsStatus > a').width() - $('#torrentsStatus > a > b').outerWidth(true);
+        const spanWidth = $('#torrentsStatus > a').width() - $('#torrentsStatus > a > b').outerWidth(true);
         $('#torrentsStatus > a > span').width(spanWidth);
       }
     }
@@ -374,20 +376,20 @@ plugin.filter = function (f, self, l) {
       $('.statusDownloading').css({ display: '' });
       $('.statusCompleted').css({ display: 'none' });
       $('#torrentsStatus > a > span').html(theUILang.Downloading);
-      var totalWidth = $('#torrentsList .nav').width();
-      var combinedWidth =
+      const totalWidth = $('#torrentsList .nav').width();
+      const combinedWidth =
         $('#torrentsTrackers').outerWidth(true) +
         $('#torrentsLabels').outerWidth(true) +
         $('#sort').outerWidth(true) +
         $('#refresh').outerWidth(true) +
         1;
-      var selfWidth = $('#torrentsStatus').width();
-      var selfExcess = $('#torrentsStatus').outerWidth(true) - selfWidth;
-      var diffWidth = totalWidth - combinedWidth - selfExcess;
+      const selfWidth = $('#torrentsStatus').width();
+      const selfExcess = $('#torrentsStatus').outerWidth(true) - selfWidth;
+      const diffWidth = totalWidth - combinedWidth - selfExcess;
 
       if (diffWidth < selfWidth && selfWidth > 0 && diffWidth > 0) {
         $('#torrentsStatus').width(diffWidth);
-        var spanWidth = $('#torrentsStatus > a').width() - $('#torrentsStatus > a > b').outerWidth(true);
+        const spanWidth = $('#torrentsStatus > a').width() - $('#torrentsStatus > a > b').outerWidth(true);
         $('#torrentsStatus > a > span').width(spanWidth);
       }
     }
@@ -396,20 +398,20 @@ plugin.filter = function (f, self, l) {
       $('.statusDownloading').css({ display: 'none' });
       $('.statusCompleted').css({ display: '' });
       $('#torrentsStatus > a > span').html(theUILang.Finished);
-      var totalWidth = $('#torrentsList .nav').width();
-      var combinedWidth =
+      const totalWidth = $('#torrentsList .nav').width();
+      const combinedWidth =
         $('#torrentsTrackers').outerWidth(true) +
         $('#torrentsLabels').outerWidth(true) +
         $('#sort').outerWidth(true) +
         $('#refresh').outerWidth(true) +
         1;
-      var selfWidth = $('#torrentsStatus').width();
-      var selfExcess = $('#torrentsStatus').outerWidth(true) - selfWidth;
-      var diffWidth = totalWidth - combinedWidth - selfExcess;
+      const selfWidth = $('#torrentsStatus').width();
+      const selfExcess = $('#torrentsStatus').outerWidth(true) - selfWidth;
+      const diffWidth = totalWidth - combinedWidth - selfExcess;
 
       if (diffWidth < selfWidth && selfWidth > 0 && diffWidth > 0) {
         $('#torrentsStatus').width(diffWidth);
-        var spanWidth = $('#torrentsStatus > a').width() - $('#torrentsStatus > a > b').outerWidth(true);
+        const spanWidth = $('#torrentsStatus > a').width() - $('#torrentsStatus > a > b').outerWidth(true);
         $('#torrentsStatus > a > span').width(spanWidth);
       }
     }
@@ -418,20 +420,20 @@ plugin.filter = function (f, self, l) {
       $('.stateActive').css({ display: '' });
       $('.stateInactive').css({ display: 'none' });
       $('#torrentsStatus > a > span').html(theUILang.Active);
-      var totalWidth = $('#torrentsList .nav').width();
-      var combinedWidth =
+      const totalWidth = $('#torrentsList .nav').width();
+      const combinedWidth =
         $('#torrentsTrackers').outerWidth(true) +
         $('#torrentsLabels').outerWidth(true) +
         $('#sort').outerWidth(true) +
         $('#refresh').outerWidth(true) +
         1;
-      var selfWidth = $('#torrentsStatus').width();
-      var selfExcess = $('#torrentsStatus').outerWidth(true) - selfWidth;
-      var diffWidth = totalWidth - combinedWidth - selfExcess;
+      const selfWidth = $('#torrentsStatus').width();
+      const selfExcess = $('#torrentsStatus').outerWidth(true) - selfWidth;
+      const diffWidth = totalWidth - combinedWidth - selfExcess;
 
       if (diffWidth < selfWidth && selfWidth > 0 && diffWidth > 0) {
         $('#torrentsStatus').width(diffWidth);
-        var spanWidth = $('#torrentsStatus > a').width() - $('#torrentsStatus > a > b').outerWidth(true);
+        const spanWidth = $('#torrentsStatus > a').width() - $('#torrentsStatus > a > b').outerWidth(true);
         $('#torrentsStatus > a > span').width(spanWidth);
       }
     }
@@ -440,20 +442,20 @@ plugin.filter = function (f, self, l) {
       $('.stateActive').css({ display: 'none' });
       $('.stateInactive').css({ display: '' });
       $('#torrentsStatus > a > span').html(theUILang.Inactive);
-      var totalWidth = $('#torrentsList .nav').width();
-      var combinedWidth =
+      const totalWidth = $('#torrentsList .nav').width();
+      const combinedWidth =
         $('#torrentsTrackers').outerWidth(true) +
         $('#torrentsLabels').outerWidth(true) +
         $('#sort').outerWidth(true) +
         $('#refresh').outerWidth(true) +
         1;
-      var selfWidth = $('#torrentsStatus').width();
-      var selfExcess = $('#torrentsStatus').outerWidth(true) - selfWidth;
-      var diffWidth = totalWidth - combinedWidth - selfExcess;
+      const selfWidth = $('#torrentsStatus').width();
+      const selfExcess = $('#torrentsStatus').outerWidth(true) - selfWidth;
+      const diffWidth = totalWidth - combinedWidth - selfExcess;
 
       if (diffWidth < selfWidth && selfWidth > 0 && diffWidth > 0) {
         $('#torrentsStatus').width(diffWidth);
-        var spanWidth = $('#torrentsStatus > a').width() - $('#torrentsStatus > a > b').outerWidth(true);
+        const spanWidth = $('#torrentsStatus > a').width() - $('#torrentsStatus > a > b').outerWidth(true);
         $('#torrentsStatus > a > span').width(spanWidth);
       }
     }
@@ -462,20 +464,20 @@ plugin.filter = function (f, self, l) {
       $('.errorNo').css({ display: 'none' });
       $('.errorYes').css({ display: '' });
       $('#torrentsStatus > a > span').html(theUILang.Error);
-      var totalWidth = $('#torrentsList .nav').width();
-      var combinedWidth =
+      const totalWidth = $('#torrentsList .nav').width();
+      const combinedWidth =
         $('#torrentsTrackers').outerWidth(true) +
         $('#torrentsLabels').outerWidth(true) +
         $('#sort').outerWidth(true) +
         $('#refresh').outerWidth(true) +
         1;
-      var selfWidth = $('#torrentsStatus').width();
-      var selfExcess = $('#torrentsStatus').outerWidth(true) - selfWidth;
-      var diffWidth = totalWidth - combinedWidth - selfExcess;
+      const selfWidth = $('#torrentsStatus').width();
+      const selfExcess = $('#torrentsStatus').outerWidth(true) - selfWidth;
+      const diffWidth = totalWidth - combinedWidth - selfExcess;
 
       if (diffWidth < selfWidth && selfWidth > 0 && diffWidth > 0) {
         $('#torrentsStatus').width(diffWidth);
-        var spanWidth = $('#torrentsStatus > a').width() - $('#torrentsStatus > a > b').outerWidth(true);
+        const spanWidth = $('#torrentsStatus > a').width() - $('#torrentsStatus > a > b').outerWidth(true);
         $('#torrentsStatus > a > span').width(spanWidth);
       }
     }
@@ -488,10 +490,10 @@ plugin.showSettings = function () {
     $('#dlLimit').html('');
     $('#ulLimit').html('');
 
-    var speeds = theWebUI.settings['webui.speedlistdl'].split(',');
+    let speeds = theWebUI.settings['webui.speedlistdl'].split(',');
 
-    for (var i = 0; i < speeds.length; i++) {
-      var spd = speeds[i] * 1024;
+    for (let i = 0; i < speeds.length; i++) {
+      const spd = speeds[i] * 1024;
       $('#dlLimit').append(
         '<option' +
           (spd === total.rateDL ? ' selected' : '') +
@@ -515,8 +517,8 @@ plugin.showSettings = function () {
 
     speeds = theWebUI.settings['webui.speedlistul'].split(',');
 
-    for (var i = 0; i < speeds.length; i++) {
-      var spd = speeds[i] * 1024;
+    for (let i = 0; i < speeds.length; i++) {
+      const spd = speeds[i] * 1024;
       $('#ulLimit').append(
         '<option' +
           (spd === total.rateUL ? ' selected' : '') +
@@ -547,7 +549,7 @@ plugin.showSort = function () {
   $('#sort_asc').prop('checked', false);
   $('#sort_desc').prop('checked', false);
 
-  var sort = '';
+  let sort = '';
   if (plugin.sort[0] === '-') {
     sort = plugin.sort.substr(1);
     $('#sort_desc').prop('checked', true);
@@ -556,7 +558,7 @@ plugin.showSort = function () {
     $('#sort_asc').prop('checked', true);
   }
 
-  sortHtml = `
+  let sortHtml = `
     <option value="name">${theUILang.Name}</option>
     <option value="size">${theUILang.Size}</option>
     <option value="uploaded">${theUILang.Uploaded}</option>
@@ -593,7 +595,7 @@ plugin.setULLimit = function () {
 };
 
 plugin.setSort = function () {
-  var sort = $('#sortOption').val();
+  let sort = $('#sortOption').val();
   if ($('#sort_desc').prop('checked')) {
     sort = '-' + sort;
   }
@@ -604,7 +606,7 @@ plugin.setSort = function () {
 
 plugin.addTorrent = function () {
   this.showPage('addTorrent');
-  var used = $('#dir_edit').outerWidth(true) - $('#dir_edit').width() + $('#showGetDir').outerWidth(true) + 1;
+  let used = $('#dir_edit').outerWidth(true) - $('#dir_edit').width() + $('#showGetDir').outerWidth(true) + 1;
   $('#dir_edit').width($('#addTorrentFile').outerWidth(true) - used);
 };
 
@@ -623,7 +625,7 @@ plugin.fillLabel = function (label) {
 plugin.fillDetails = function (d) {
   $('#torrentName').text(d.name);
 
-  var percent = d.done / 10.0;
+  let percent = d.done / 10.0;
   $('#torrentProgress').removeClass('active');
   if (d.done !== 1000) {
     $('#torrentProgress').addClass('active');
@@ -723,7 +725,7 @@ plugin.editLabel = function () {
   `);
   $('#labelEdit').focus();
   $('#labelEdit').blur(function () {
-    var newLabel = $('#labelEdit').val();
+    let newLabel = $('#labelEdit').val();
     plugin.labelInEdit = false;
     plugin.fillLabel(newLabel);
 
@@ -741,18 +743,18 @@ plugin.showDetails = function (e) {
   if (this.torrent === undefined) return;
 
   this.torrent.hash = e;
-  var d = this.torrent;
+  let d = this.torrent;
 
   this.fillDetails(d);
 
   this.showPage('torrentDetails');
   setTimeout(function () {
-    var totalWidth = $('#torrentDetails').width();
-    var combinedWidth = $('#detailsDetailsPage #priority td:nth-child(1)').outerWidth(true);
-    var tdExcess =
+    let totalWidth = $('#torrentDetails').width();
+    let combinedWidth = $('#detailsDetailsPage #priority td:nth-child(1)').outerWidth(true);
+    let tdExcess =
       $('#detailsDetailsPage #priority td:nth-child(2)').outerWidth(true) -
       $('#detailsDetailsPage #priority td:nth-child(2)').width();
-    var diffWidth = totalWidth - combinedWidth - tdExcess;
+    let diffWidth = totalWidth - combinedWidth - tdExcess;
     $('#torrentDetails select').css('max-width', diffWidth);
   }, 0);
   $('.torrentControl').css('display', '');
@@ -796,13 +798,13 @@ plugin.toogleTrackerInfo = function (s) {
 
 plugin.loadTrackers = function () {
   if (this.torrent !== undefined) {
-    var hash = this.torrent.hash;
+    let hash = this.torrent.hash;
     this.request('?action=gettrackers&hash=' + hash, function (data) {
-      var trackers = data[hash];
+      let trackers = data[hash];
       if (hash === mobile.torrent.hash) {
-        var trackersHtml = '<div class="panel-group" id="trackersAccordion">';
+        let trackersHtml = '<div class="panel-group" id="trackersAccordion">';
 
-        for (var i = 0; i < trackers.length; i++) {
+        for (let i = 0; i < trackers.length; i++) {
           trackersHtml += `
             <div class="panel panel-default">
               <div class="panel-heading">
@@ -873,12 +875,12 @@ plugin.loadTrackers = function () {
 
 plugin.loadPeers = function () {
   if (this.torrent !== undefined) {
-    var hash = this.torrent.hash;
+    let hash = this.torrent.hash;
     this.request('?action=getpeers&hash=' + hash, function (data) {
-      var peers = data;
-      var pid = Object.keys(peers);
+      let peers = data;
+      let pid = Object.keys(peers);
       if (hash === mobile.torrent.hash) {
-        var tableHeight =
+        let tableHeight =
           $(window).height() -
           $('#mainNavbar').outerHeight(true) -
           ($('#torrentDetails .nav').outerHeight(true) +
@@ -887,9 +889,9 @@ plugin.loadPeers = function () {
               $('#torrentDetailsHeader #torrentProgress').outerHeight()));
         $('div.tableFixHead').css('max-height', tableHeight + 'px');
 
-        var peersHtml = '';
+        let peersHtml = '';
 
-        for (var i = 0; i < pid.length; i++) {
+        for (let i = 0; i < pid.length; i++) {
           peersHtml += `
             <tr>
               <td>${peers[pid[i]].ip}:${peers[pid[i]].port}</td>
@@ -914,15 +916,15 @@ plugin.loadPeers = function () {
 plugin.files = undefined;
 
 plugin.getDir = function (p) {
-  var path = p.split('/');
+  let path = p.split('/');
 
   if (path[0] === '' && path.length === 1) {
     path = [];
   }
 
-  var dir = plugin.files;
-  var realPath = '';
-  for (var i = 0; i < path.length; i++) {
+  let dir = plugin.files;
+  let realPath = '';
+  for (let i = 0; i < path.length; i++) {
     if (path[i] === '') {
       continue;
     }
@@ -943,9 +945,9 @@ plugin.getDir = function (p) {
 };
 
 plugin.getFilesList = function (s) {
-  var ret = '';
+  let ret = '';
 
-  for (var name in s) {
+  for (let name in s) {
     if (s[name].directory) {
       ret += this.getFilesList(s[name].container);
     } else {
@@ -957,18 +959,18 @@ plugin.getFilesList = function (s) {
 };
 
 plugin.drawFiles = function (p) {
-  var vars = this.getDir(p);
-  var realPath = vars[0];
-  var dir = vars[1];
+  let vars = this.getDir(p);
+  let realPath = vars[0];
+  let dir = vars[1];
 
-  var filesHtml = '';
+  let filesHtml = '';
 
   if (!dir.root) {
-    var i = realPath.lastIndexOf('/');
+    let i = realPath.lastIndexOf('/');
     if (i < 0) {
       i = 0;
     }
-    var upperDir = realPath.substr(0, i);
+    let upperDir = realPath.substr(0, i);
     filesHtml += `
       <a
         href="javascript://void();"
@@ -978,11 +980,11 @@ plugin.drawFiles = function (p) {
     `;
   }
 
-  for (var name in dir.container) {
+  for (let name in dir.container) {
     filesHtml += `
       <div>
         <div class="hiddenPath">${realPath}/${name}</div>
-        <button onclick="mobile.toggleDisplay(\$(this).parent().find('.prioritySelect'));" class="btn btn-default btn-sm pull-right">
+        <button onclick="mobile.toggleDisplay($(this).parent().find('.prioritySelect'));" class="btn btn-default btn-sm pull-right">
           <i class="glyphicon glyphicon-th-list icon-white"></i>
         </button>
       `;
@@ -994,7 +996,7 @@ plugin.drawFiles = function (p) {
           onclick="mobile.drawFiles('${realPath}/${name}');"
         ><i class="glyphicon glyphicon-folder-open icon-white"></i>&nbsp;${name}</a>`;
     } else {
-      var idName = 'file' + dir.container[name].id;
+      let idName = 'file' + dir.container[name].id;
       filesHtml += `
         <a
           href="javascript://void();"
@@ -1029,14 +1031,14 @@ plugin.drawFiles = function (p) {
 
   $('#detailsFilesPage').html(filesHtml);
   $('#detailsFilesPage select').change(function () {
-    var newValue = $(this).val();
+    let newValue = $(this).val();
     if (newValue < 0) {
       return;
     }
 
-    var vars = plugin.getDir($(this).parent().find('.hiddenPath').text());
+    let vars = plugin.getDir($(this).parent().find('.hiddenPath').text());
 
-    var filesList = '';
+    let filesList = '';
     if (!vars[1].directory) {
       filesList = vars[1].id;
     } else {
@@ -1048,8 +1050,8 @@ plugin.drawFiles = function (p) {
 };
 
 plugin.fillDirectoriesPriority = function (p) {
-  var priority = -2;
-  for (var name in p.container) {
+  let priority = -2;
+  for (let name in p.container) {
     if (p.container[name].directory) {
       this.fillDirectoriesPriority(p.container[name]);
     }
@@ -1065,17 +1067,17 @@ plugin.fillDirectoriesPriority = function (p) {
 
 plugin.loadFiles = function () {
   if (this.torrent !== undefined) {
-    var hash = this.torrent.hash;
+    let hash = this.torrent.hash;
     $('#detailsFilesPage').html('');
     this.request('?action=getfiles&hash=' + hash, function (data) {
-      var rawFiles = data[hash];
-      var files = { root: true, directory: true, priority: -1, container: {} };
+      let rawFiles = data[hash];
+      let files = { root: true, directory: true, priority: -1, container: {} };
 
-      for (var i = 0; i < rawFiles.length; i++) {
-        var path = rawFiles[i].name.replace(/^\/|\/$/g, '').split('/');
-        var currDir = files;
+      for (let i = 0; i < rawFiles.length; i++) {
+        let path = rawFiles[i].name.replace(/^\/|\/$/g, '').split('/');
+        let currDir = files;
 
-        for (var j = 0; j < path.length - 1; j++) {
+        for (let j = 0; j < path.length - 1; j++) {
           if (currDir.container[path[j]] === undefined) {
             currDir.container[path[j]] = { directory: true, root: false, container: {}, priority: -2 };
           }
@@ -1100,7 +1102,7 @@ plugin.loadFiles = function () {
 
 plugin.start = function () {
   if (this.torrent !== undefined) {
-    var status = this.torrent.state;
+    let status = this.torrent.state;
 
     if (
       !(status & dStatus.started) ||
@@ -1113,7 +1115,7 @@ plugin.start = function () {
 
 plugin.stop = function () {
   if (this.torrent !== undefined) {
-    var status = this.torrent.state;
+    let status = this.torrent.state;
 
     if (status & dStatus.started || status & dStatus.hashing || status & dStatus.checking) {
       this.request('?action=stop&hash=' + this.torrent.hash);
@@ -1123,7 +1125,7 @@ plugin.stop = function () {
 
 plugin.pause = function () {
   if (this.torrent !== undefined) {
-    var status = this.torrent.state;
+    let status = this.torrent.state;
 
     if (
       status & dStatus.started &&
@@ -1140,7 +1142,7 @@ plugin.pause = function () {
 
 plugin.recheck = function () {
   if (this.torrent !== undefined) {
-    var status = this.torrent.state;
+    let status = this.torrent.state;
 
     if (!(status & dStatus.checking) && !(status & dStatus.hashing)) {
       this.request('?action=recheck&hash=' + this.torrent.hash);
@@ -1195,10 +1197,7 @@ plugin.drawGetDir = function (path, first) {
     },
 
     success: function (data) {
-      var re = /<td[\s]+code=\'([\S]+?)\'[\s\S]+?>&nbsp;&nbsp;([\s\S]+?)<\/td>/g;
-      var match = null;
-
-      var html = `
+      let html = `
         <h6>${decodeURIComponent(data.path)}</h6>
         <button
           class="btn btn-primary"
@@ -1237,11 +1236,11 @@ plugin.showGetDir = function () {
 plugin.updateLabelDropdown = function () {
   $('#torrentsLabels ul').css('width', '');
   $('#torrentsList .nav > li > ul a').css('white-space', '');
-  var totalWidth = $('#torrentsList .nav').width();
-  var combinedWidth = $('#torrentsStatus').outerWidth(true);
-  var selfWidth = $('#torrentsLabels ul').width();
-  var selfExcess = $('#torrentsLabels ul').outerWidth(true) - selfWidth;
-  var diffWidth = totalWidth - combinedWidth - selfExcess;
+  let totalWidth = $('#torrentsList .nav').width();
+  let combinedWidth = $('#torrentsStatus').outerWidth(true);
+  let selfWidth = $('#torrentsLabels ul').width();
+  let selfExcess = $('#torrentsLabels ul').outerWidth(true) - selfWidth;
+  let diffWidth = totalWidth - combinedWidth - selfExcess;
 
   if (diffWidth < selfWidth && selfWidth > 0 && diffWidth > 0) {
     $('#torrentsLabels ul').width(diffWidth);
@@ -1252,13 +1251,13 @@ plugin.updateLabelDropdown = function () {
 plugin.updateTrackerDropdown = function () {
   $('#torrentsTrackers ul').css('width', '');
   $('#torrentsList .nav > li > ul a').css('white-space', '');
-  var combinedWidth =
+  let combinedWidth =
     $('#torrentsStatus').outerWidth(true) +
     $('#torrentsLabels').outerWidth(true) +
     $('#torrentsTrackers').outerWidth(true);
-  var selfWidth = $('#torrentsTrackers ul').width();
-  var selfExcess = $('#torrentsTrackers ul').outerWidth(true) - selfWidth;
-  var diffWidth = combinedWidth - selfExcess;
+  let selfWidth = $('#torrentsTrackers ul').width();
+  let selfExcess = $('#torrentsTrackers ul').outerWidth(true) - selfWidth;
+  let diffWidth = combinedWidth - selfExcess;
 
   if (diffWidth < selfWidth && selfWidth > 0 && diffWidth > 0) {
     $('#torrentsTrackers ul').width(diffWidth);
@@ -1267,7 +1266,7 @@ plugin.updateTrackerDropdown = function () {
 };
 
 plugin.loadRatio = function () {
-  var ratio = thePlugins.get('ratio');
+  let ratio = thePlugins.get('ratio');
   if (ratio.allStuffLoaded) {
     $('#priority').after(`
       <tr id="ratiogrp">
@@ -1278,7 +1277,7 @@ plugin.loadRatio = function () {
     $('#torrentRatioGrp').change(function () {
       mobile.changeRatioGrp();
     });
-    var ratioHTML = `<option value="-1">${theUILang.mnuRatioUnlimited}</option>`;
+    let ratioHTML = `<option value="-1">${theUILang.mnuRatioUnlimited}</option>`;
     $.each(theWebUI.ratios, function (i, v) {
       ratioHTML += `<option value="${i}">${v.name}</option>`;
     });
@@ -1286,24 +1285,27 @@ plugin.loadRatio = function () {
     $('#ratiogrp').children('td:first').text(theUILang.ratio);
 
     rTorrentStub.prototype.setratio = function () {
-      for (var i = 0; i < this.vs.length; i++) {
-        var wasNo = plugin.getRatioData(this.hashes[i]);
+      for (let i = 0; i < this.vs.length; i++) {
+        let wasNo = plugin.getRatioData(this.hashes[i]);
         if (wasNo !== this.vs[i]) {
           if (wasNo >= 0) {
-            cmd = new rXMLRPCCommand('view.set_not_visible');
+            let cmd = new rXMLRPCCommand('view.set_not_visible');
             cmd.addParameter('string', this.hashes[i]);
             cmd.addParameter('string', 'rat_' + wasNo);
             this.commands.push(cmd);
+
             cmd = new rXMLRPCCommand('d.views.remove');
             cmd.addParameter('string', this.hashes[i]);
             cmd.addParameter('string', 'rat_' + wasNo);
             this.commands.push(cmd);
           }
+
           if (this.vs[i] >= 0) {
-            cmd = new rXMLRPCCommand('d.views.push_back_unique');
+            let cmd = new rXMLRPCCommand('d.views.push_back_unique');
             cmd.addParameter('string', this.hashes[i]);
             cmd.addParameter('string', 'rat_' + this.vs[i]);
             this.commands.push(cmd);
+
             cmd = new rXMLRPCCommand('view.set_visible');
             cmd.addParameter('string', this.hashes[i]);
             cmd.addParameter('string', 'rat_' + this.vs[i]);
@@ -1320,7 +1322,7 @@ plugin.loadRatio = function () {
 };
 
 plugin.loadThrottle = function () {
-  var throttle = thePlugins.get('throttle');
+  let throttle = thePlugins.get('throttle');
   if (throttle.allStuffLoaded) {
     $('#priority').after(`
       <tr id="throttle">
@@ -1331,7 +1333,7 @@ plugin.loadThrottle = function () {
     $('#torrentChannel').change(function () {
       mobile.changeChannel();
     });
-    var throttleHTML = `<option value="-1">${theUILang.mnuUnlimited}</option>`;
+    let throttleHTML = `<option value="-1">${theUILang.mnuUnlimited}</option>`;
     $.each(theWebUI.throttles, function (i, v) {
       throttleHTML += `<option value="${i}">${v.name}</option>`;
     });
@@ -1339,19 +1341,22 @@ plugin.loadThrottle = function () {
     $('#throttle').children('td:first').text(theUILang.throttle);
 
     rTorrentStub.prototype.setthrottle = function () {
-      for (var i = 0; i < this.vs.length; i++) {
-        var status = theWebUI.getStatusIcon(mobile.torrents[this.hashes[i]]);
-        var needRestart = status[1] === theUILang.Seeding || status[1] === theUILang.Downloading;
-        var name = this.vs[i] >= 0 ? 'thr_' + this.vs[i] : '';
+      for (let i = 0; i < this.vs.length; i++) {
+        let status = theWebUI.getStatusIcon(mobile.torrents[this.hashes[i]]);
+        let needRestart = status[1] === theUILang.Seeding || status[1] === theUILang.Downloading;
+        let name = this.vs[i] >= 0 ? 'thr_' + this.vs[i] : '';
+
         if (needRestart) {
-          cmd = new rXMLRPCCommand('d.stop');
+          const cmd = new rXMLRPCCommand('d.stop');
           cmd.addParameter('string', this.hashes[i]);
           this.commands.push(cmd);
         }
-        cmd = new rXMLRPCCommand('d.set_throttle_name');
+
+        let cmd = new rXMLRPCCommand('d.set_throttle_name');
         cmd.addParameter('string', this.hashes[i]);
         cmd.addParameter('string', name);
         this.commands.push(cmd);
+
         if (needRestart) {
           cmd = new rXMLRPCCommand('d.start');
           cmd.addParameter('string', this.hashes[i]);
@@ -1367,7 +1372,7 @@ plugin.loadThrottle = function () {
 };
 
 plugin.loadSeedingTime = function () {
-  var seedingtime = thePlugins.get('seedingtime');
+  let seedingtime = thePlugins.get('seedingtime');
   if (seedingtime.allStuffLoaded) {
     $('#created').after('<tr id="seedtime"><td></td><td></td></tr>');
     $('#created').after('<tr id="dateAdded"><td></td><td></td></tr>');
@@ -1381,25 +1386,27 @@ plugin.loadSeedingTime = function () {
 };
 
 plugin.dynamicSort = function (property) {
-  var sortOrder = 1;
+  let sortOrder = 1;
   if (property[0] === '-') {
     sortOrder = -1;
     property = property.substr(1);
   }
 
   return function (a, b) {
+    let result;
+
     if (typeof a[property] === 'string' || a[property] instanceof String) {
       if (parseInt(a[property])) {
         if (parseInt(b[property])) {
-          var result =
+          result =
             parseInt(a[property]) < parseInt(b[property]) ? -1 : parseInt(a[property]) > parseInt(b[property]) ? 1 : 0;
         } else {
-          var result = -1;
+          result = -1;
         }
       } else if (parseInt(b[property])) {
-        var result = 1;
+        result = 1;
       } else {
-        var result =
+        result =
           a[property].toLowerCase() < b[property].toLowerCase()
             ? -1
             : a[property].toLowerCase() > b[property].toLowerCase()
@@ -1407,8 +1414,9 @@ plugin.dynamicSort = function (property) {
               : 0;
       }
     } else {
-      var result = a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+      result = a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
     }
+
     return result * sortOrder;
   };
 };
@@ -1421,25 +1429,26 @@ plugin.update = function (singleUpdate) {
       plugin.labelIds = {};
       plugin.trackerIds = {};
       plugin.labelIds[''] = 0;
-      var torrentArray = [];
-      var trackersCount = {};
-      var trackersMap = {};
-      var tul = 0;
-      var tdl = 0;
-      var nextLabelId = 1;
-      var nextTrackerId = 1;
-      var labelsHtml = `
+      let torrentArray = [];
+      let trackersCount = {};
+      let trackersMap = {};
+      let tul = 0;
+      let tdl = 0;
+      let nextLabelId = 1;
+      let nextTrackerId = 1;
+      let labelsHtml = `
         <li>
           <a
             href="javascript://void();"
             onclick="mobile.filter(mobile.statusFilter.label, this, '');"
           >${theUILang.No_label} (${theWebUI.categoryList.panelLabelAttribs.plabel.get('-_-_-nlb-_-_-').count})</a>
         </li>`;
-      var trackersHtml = '';
+      let trackersHtml = '';
 
-      for (l of theWebUI.categoryList.panelLabelAttribs.plabel.keys()) {
+      for (const l of theWebUI.categoryList.panelLabelAttribs.plabel.keys()) {
         if (l.startsWith('clabel')) {
-          labelProper = l.replace('clabel__', '');
+          const labelProper = l.replace('clabel__', '');
+
           if (plugin.labelIds[labelProper] === undefined) {
             plugin.labelIds[labelProper] = nextLabelId++;
           }
@@ -1459,8 +1468,8 @@ plugin.update = function (singleUpdate) {
         plugin.updateLabelDropdown();
       }
 
-      var listHtml = $('#torrentsList #list table tbody');
-      var listHtmlString = '';
+      let listHtml = $('#torrentsList #list table tbody');
+      let listHtmlString = '';
 
       $.each(plugin.torrents, function (n, v) {
         v.hash = n;
@@ -1470,13 +1479,13 @@ plugin.update = function (singleUpdate) {
 
       mobile.request('?action=getalltrackers', function (data) {
         $.each(torrentArray, function (n, v) {
-          var status = theWebUI.getStatusIcon(v);
-          var statusClass = v.done === 1000 ? 'Completed' : 'Downloading';
-          var stateClass = v.ul || v.dl ? 'Active' : 'Inactive';
-          var errorClass = v.state & dStatus.error ? 'Yes' : 'No';
-          var percent = v.done / 10;
-          var rx = /\[(.*)\]/g;
-          var digestMsg = v.msg ? rx.exec(v.msg)[1] : '';
+          let status = theWebUI.getStatusIcon(v);
+          let statusClass = v.done === 1000 ? 'Completed' : 'Downloading';
+          let stateClass = v.ul || v.dl ? 'Active' : 'Inactive';
+          let errorClass = v.state & dStatus.error ? 'Yes' : 'No';
+          let percent = v.done / 10;
+          let rx = /\[(.*)\]/g;
+          let digestMsg = v.msg ? rx.exec(v.msg)[1] : '';
 
           tul += iv(v.ul);
           tdl += iv(v.dl);
@@ -1549,10 +1558,10 @@ plugin.update = function (singleUpdate) {
               .text(percent + '% ' + theUILang.of + ' ' + theConverter.bytes(v.size, 2));
           }
 
-          var trackers = data[v.hash];
-          var uniqueTrackers = [];
-          for (var i = 0; i < trackers.length; i++) {
-            var trackerName = theWebUI.getTrackerName(trackers[i].name);
+          let trackers = data[v.hash];
+          let uniqueTrackers = [];
+          for (let i = 0; i < trackers.length; i++) {
+            let trackerName = theWebUI.getTrackerName(trackers[i].name);
             if (trackerName) {
               if (trackerName in trackersCount) {
                 if ($.inArray(trackerName, uniqueTrackers) === -1) {
@@ -1586,7 +1595,7 @@ plugin.update = function (singleUpdate) {
           plugin.updateTrackerDropdown();
         }
 
-        $.each(plugin.torrentsPrev, function (n, v) {
+        $.each(plugin.torrentsPrev, function (n) {
           if (!plugin.torrents[n]) {
             listHtml.find($('#' + n)).remove();
           }
@@ -1644,20 +1653,21 @@ plugin.update = function (singleUpdate) {
       //TODO: Timeout
     },
 
-    function (status, text) {
+    function (/* status, text */) {
       //TODO: Error
     },
   );
 };
 
 plugin.disableOthers = function () {
-  var start = window.location.href.indexOf('mobile=1') > 0;
+  let start = window.location.href.indexOf('mobile=1') > 0;
 
   if (!start && this.enableAutodetect) {
     start = jQuery.browser.mobile;
   }
 
   if (start) {
+    /* eslint-disable no-unused-vars */
     dxSTable.prototype.renameColumn = function (no, name) {};
     dxSTable.prototype.Sort = function (e) {};
     dxSTable.prototype.createRow = function (cols, sId, icon, attr) {};
@@ -1667,6 +1677,7 @@ plugin.disableOthers = function () {
     dxSTable.prototype.getAttr = function (row, attrName) {};
     dxSTable.prototype.setAttr = function (row, attr) {};
     dxSTable.prototype.setIcon = function (row, icon) {};
+    /* eslint-enable no-unused-vars */
     theWebUI.filterByLabel = function () {};
     theWebUI.loadTorrents = function () {};
 
@@ -1693,7 +1704,7 @@ plugin.init = function () {
     plugin.backListener();
   }, 500);
 
-  var jQueryVer = jQuery.fn.jquery.split('.');
+  let jQueryVer = jQuery.fn.jquery.split('.');
   if (jQueryVer[0] === 1 && jQueryVer[1] >= 7) {
     this.bootstrapJS = true;
   } else if (jQueryVer[0] > 1) {
@@ -1705,11 +1716,11 @@ plugin.init = function () {
     url: this.path + 'mobile.html',
     processData: false,
 
-    error: function (XMLHttpRequest, textStatus, errorThrown) {
+    error: function (/* XMLHttpRequest, textStatus, errorThrown */) {
       //TODO: Error
     },
 
-    success: function (data, textStatus) {
+    success: function (data) {
       $('body').html(data);
 
       $('link[rel=stylesheet]').remove();
@@ -1722,7 +1733,7 @@ plugin.init = function () {
 
       if (!plugin.bootstrapJS) {
         $('#torrentsStatus > a').click(function () {
-          var menu = $('#torrentsStatus');
+          let menu = $('#torrentsStatus');
 
           if (menu.hasClass('open')) {
             menu.removeClass('open');
@@ -1736,7 +1747,7 @@ plugin.init = function () {
         });
 
         $('#torrentsLabels > a').click(function () {
-          var menu = $('#torrentsLabels');
+          let menu = $('#torrentsLabels');
 
           if (menu.hasClass('open')) {
             menu.removeClass('open');
@@ -1750,7 +1761,7 @@ plugin.init = function () {
         });
 
         $('#torrentsTrackers > a').click(function () {
-          var menu = $('#torrentsTrackers');
+          let menu = $('#torrentsTrackers');
 
           if (menu.hasClass('open')) {
             menu.removeClass('open');
@@ -1806,8 +1817,8 @@ plugin.init = function () {
         mobile.changePriority();
       });
 
-      var makeAddRequest = function (frm) {
-        var s = theURLs.AddTorrentURL + '?';
+      let makeAddRequest = function (frm) {
+        let s = theURLs.AddTorrentURL + '?';
         if ($('#torrents_start_stopped').prop('checked')) {
           s += 'torrents_start_stopped=1&';
         }
@@ -1820,11 +1831,11 @@ plugin.init = function () {
         if ($('#randomize_hash').prop('checked')) {
           s += 'randomize_hash=1&';
         }
-        var dir = $.trim($('#dir_edit').val());
+        let dir = $.trim($('#dir_edit').val());
         if (dir.length) {
           s += 'dir_edit=' + encodeURIComponent(dir) + '&';
         }
-        var lbl = $.trim($('#tadd_label').val());
+        let lbl = $.trim($('#tadd_label').val());
         if (lbl.length) {
           s += 'label=' + encodeURIComponent(lbl);
         }
@@ -1918,6 +1929,7 @@ plugin.onLangLoaded = function () {
   });
 };
 
+/* eslint-disable */
 /**
  * JQuery.browser.mobile (http://detectmobilebrowser.com/)
  *
@@ -1937,6 +1949,7 @@ if (plugin.tabletsDetect && !jQuery.browser.mobile) {
     (jQuery.browser = jQuery.browser || {}).mobile = /android|ipad|playbook|silk/i.test(a);
   })(navigator.userAgent || navigator.vendor || window.opera);
 }
+/* eslint-enable */
 
 mobile = plugin;
 plugin.disableOthers();
